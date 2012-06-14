@@ -152,6 +152,7 @@ class Needs {
 
     def process() = {
       post.postedAt.set(new Date())
+      //post.email.set(S.param("email").openTheBox)
       post.validate match {
         case Nil => {
           post.save
@@ -214,4 +215,25 @@ class Needs {
       "#adminLink *" #> (adminLink)
 
   }
+
+  def getAdministration: CssSel = {
+      val id = S.param("id").openTheBox
+      val post = Need.find(By(Need.id, id.toLong)).openTheBox
+      val webApplicationPort = CurrentReq.value.request.serverPort
+      var webApplicationUrl = CurrentReq.value.request.serverName
+
+      if(webApplicationPort != 80){
+        webApplicationUrl = webApplicationUrl + ":" + webApplicationPort
+      }
+
+      val adminLink = "http://" + webApplicationUrl + "/administration/" + id + "/" + YabeHelper.generateAdminHash(post.id)
+      val shareLink = "http://" + webApplicationUrl + "/read/" + id + "/" + YabeHelper.generateHash(post.id)
+
+      "#postTitle *" #> (post.title) &
+        "#postTitle [href]" #> (shareLink) &
+        "#adminQuickLink [href]" #> (adminLink) &
+        "#shareLink *" #> (shareLink) &
+        "#adminLink *" #> (adminLink)
+
+    }
 }

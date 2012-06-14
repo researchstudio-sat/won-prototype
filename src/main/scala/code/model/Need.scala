@@ -8,42 +8,47 @@ import xml.{Unparsed, Text, Node}
 import net.liftweb.textile.TextileParser
 
 
-class Post extends LongKeyedMapper[Post] with IdPK {
-  def getSingleton = Post
-   /*
-  object author extends MappedLongForeignKey(this, User) {
-    override def validSelectValues = {
-      val users = User.findAll().map( (x:User) => (x.id.get, x.email.get) )
-      val list = (0.toLong, "(Please select a user)") :: users
-      Full(list)
-    }
+class Need extends LongKeyedMapper[Need] with IdPK {
+  def getSingleton = Need
 
-    override def validations = {
-      def needAuthor(author: Long) = {
-        if (author == 0) List(FieldError(this, "Please select a user."))
-        else List[FieldError]()
-      }
+  /*
+object author extends MappedLongForeignKey(this, User) {
+override def validSelectValues = {
+  val users = User.findAll().map( (x:User) => (x.id.get, x.email.get) )
+  val list = (0.toLong, "(Please select a user)") :: users
+  Full(list)
+}
 
-      needAuthor _ :: Nil
-    }
+override def validations = {
+  def needAuthor(author: Long) = {
+    if (author == 0) List(FieldError(this, "Please select a user."))
+    else List[FieldError]()
+  }
 
-    def getAuthor = {
-      User.find(By(User.id, author.get)).openTheBox
-    }
+  needAuthor _ :: Nil
+}
 
-    def first:Node = {
-      Text(getAuthor.firstName.get)
-    }
+def getAuthor = {
+  User.find(By(User.id, author.get)).openTheBox
+}
 
-    def last:Node = {
-      Text(getAuthor.lastName.get)
-    }
-  }    */
+def first:Node = {
+  Text(getAuthor.firstName.get)
+}
+
+def last:Node = {
+  Text(getAuthor.lastName.get)
+}
+}    */
 
   object title extends MappedString(this, 140) {
     override def validations = {
       valMinLen(1, "Please input title.") _ :: Nil
     }
+  }
+
+  object email extends MappedEmail(this, 500) {
+
   }
 
   object content extends MappedTextarea(this, 1000) {
@@ -58,7 +63,7 @@ class Post extends LongKeyedMapper[Post] with IdPK {
       notNull _ :: Nil
     }
 
-    override def asHtml:Node = {
+    override def asHtml: Node = {
       Unparsed(TextileParser.toHtml(this.get.toString).toString)
     }
   }
@@ -88,24 +93,24 @@ class Post extends LongKeyedMapper[Post] with IdPK {
     }
   }
 
-  object tags extends HasManyThrough(this, Post, PostTag, PostTag.tag, PostTag.post) {
-    def setMultiple(post: Post, tags: String) {
+  object tags extends HasManyThrough(this, Need, NeedTag, NeedTag.tag, NeedTag.post) {
+    def setMultiple(post: Need, tags: String) {
       //delete old tag relation
-      PostTag.findAll(By(PostTag.post, post.id)).foreach(_.delete_!)
+      NeedTag.findAll(By(NeedTag.post, post.id)).foreach(_.delete_!)
 
       //set new tag relation
-      Tag.createAndGetTags(splitTags(tags)).distinct.foreach(PostTag.join(post, _))
+      Tag.createAndGetTags(splitTags(tags)).distinct.foreach(NeedTag.join(post, _))
     }
 
     //Format tags as "tag1 tag2 tag3.."
     def concat: String = {
-      val postTags = PostTag
-        .findAll(By(PostTag.post, Post.this.id))
+      val postTags = NeedTag
+        .findAll(By(NeedTag.post, Need.this.id))
 
       postTags match {
         case Nil => ""
         case _ => postTags
-          .map((pt:PostTag) => Tag.getName(pt.tag.get))
+          .map((pt: NeedTag) => Tag.getName(pt.tag.get))
           .reduceLeft(_ + " " + _)
       }
     }
@@ -115,55 +120,56 @@ class Post extends LongKeyedMapper[Post] with IdPK {
     }
   }
 
-  //delete its comments first
+  //delete its offers first
   override def delete_!(): Boolean = {
-    val comments = Comment.findAll(By(Comment.post, this.id.get))
-    comments.foreach(_.delete_!)
+    val offers = Offer.findAll(By(Offer.post, this.id.get))
+    offers.foreach(_.delete_!)
 
     super.delete_!
   }
 
-  def countComments:Long = {
-    Comment.count(By(Comment.post, this.id))
+  def countOffers: Long = {
+    Offer.count(By(Offer.post, this.id))
   }
 
-  def latestCommentAuthor:String = {
-    if(countComments <= 0)
+  def latestOfferAuthor: String = {
+    if (countOffers <= 0)
       ""
     else {
-      val latest = Comment.find(By(Comment.post,this.id),
-        OrderBy(Comment.postedAt, Descending)).openTheBox
+      val latest = Offer.find(By(Offer.post, this.id),
+        OrderBy(Offer.postedAt, Descending)).openTheBox
 
       latest.author match {
-        case author if (author.length > 0) => ", lastest by "+latest.author
+        case author if (author.length > 0) => ", lastest by " + latest.author
         case _ => ", lastest by guest"
       }
     }
   }
 
-  def showTagMetaStr:String = {
-    val postTags = PostTag.findAll(By(PostTag.post, this.id))
-    val tagNames = postTags.map { (pt:PostTag) =>
-      val tag = Tag.find(By(Tag.id,pt.tag)).openTheBox
-      "<a href='/posts/"+tag.name.get+"'>"+tag.name.get+"</a>"
+  def showTagMetaStr: String = {
+    val postTags = NeedTag.findAll(By(NeedTag.post, this.id))
+    val tagNames = postTags.map {
+      (pt: NeedTag) =>
+        val tag = Tag.find(By(Tag.id, pt.tag)).openTheBox
+        "<a href='/posts/" + tag.name.get + "'>" + tag.name.get + "</a>"
     }
-    if(tagNames.length > 0)
-     " - tagged: " + tagNames.reduceLeft(_ + ", "+ _)
+    if (tagNames.length > 0)
+      " - tagged: " + tagNames.reduceLeft(_ + ", " + _)
     else
       " - no tags"
   }
 }
 
-object Post extends Post with LongKeyedMetaMapper[Post] with CRUDify[Long, Post] {
-  def getPostsByTag(tag:String) = {
+object Need extends Need with LongKeyedMetaMapper[Need] with CRUDify[Long, Need] {
+  def getNeedsByTag(tag: String) = {
     val tagId = Tag.find(By(Tag.name, tag)) match {
       case Full(t) => t.id.get
       case _ => -1
     }
 
     val posts =
-      Post.findAll(In(Post.id, PostTag.post,By(PostTag.tag,tagId)),
-      OrderBy(Post.id, Descending))
+      Need.findAll(In(Need.id, NeedTag.post, By(NeedTag.tag, tagId)),
+        OrderBy(Need.id, Descending))
 
     posts
   }

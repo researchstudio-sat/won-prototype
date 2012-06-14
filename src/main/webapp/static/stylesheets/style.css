@@ -63,15 +63,15 @@ body {
 .about {
     text-indent: -999em;
     display: block;
-    width: 0; 
-    height: 0; 
-	border-left: 10px solid transparent; 
-	border-right: 10px solid transparent;
-	border-bottom: 10px solid #BAC36E;
-	border-top: 0;
-	position: absolute;
-	top: -10px;
-	left: 60px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #BAC36E;
+    border-top: 0;
+    position: absolute;
+    top: -10px;
+    left: 60px;
 }
 
 #title h1 {
@@ -100,7 +100,7 @@ body {
     padding: 20px;
 }
 
-/** Post **/
+/** Need **/
 
 .post .post-title {
     margin: 0;
@@ -141,17 +141,16 @@ body {
 .post .about {
     text-indent: -999em;
     display: block;
-    width: 0; 
-    height: 0; 
-	border-left: 10px solid transparent; 
-	border-right: 10px solid transparent;
-	border-bottom: 10px solid #fff;
-	border-top: 0;
-	position: absolute;
-	top: -6px;
-	left: 24px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #fff;
+    border-top: 0;
+    position: absolute;
+    top: -6px;
+    left: 24px;
 }
-
 
 /** Older posts **/
 
@@ -188,9 +187,9 @@ body {
     color: #869AB1;
 }
 
-/** Comments **/
+/** Offers **/
 
-.comments {
+.offers {
     margin-bottom: 30px;
 }
 
@@ -205,12 +204,12 @@ h3 span {
     font-weight: normal;
 }
 
-.comment {
+.offer {
     width: 70%;
     clear: both;
 }
 
-.comment .comment-metadata {
+.offer .offer-metadata {
     color: #869AB1;
     display: block;
     font-size: 50%;
@@ -220,13 +219,13 @@ h3 span {
     text-align: right;
 }
 
-.comment .comment-author {
+.offer .offer-author {
     font-size: 150%;
     font-weight: bold;
     display: block;
 }
 
-.comment .comment-content {
+.offer .offer-content {
     position: relative;
     background: #E4EAFF;
     color: #242C58;
@@ -239,18 +238,18 @@ h3 span {
     -moz-border-radius: 10px;
 }
 
-.comment .about {
+.offer .about {
     text-indent: -999em;
     display: block;
-    width: 0; 
-    height: 0; 
-	border-top: 10px solid transparent; 
-	border-bottom: 10px solid transparent;
-	border-right: 10px solid #E4EAFF;
-	border-left: 0;
-	position: absolute;
-	top: 4px;
-	left: -4px;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 10px solid #E4EAFF;
+    border-left: 0;
+    position: absolute;
+    top: 4px;
+    left: -4px;
 }
 
 /** Form **/
@@ -294,9 +293,9 @@ form label {
     margin-bottom: 3px;
 }
 
-#captcha{
+#captcha {
     display: block;
-    height: 50px;  
+    height: 50px;
 }
 
 .success {
@@ -305,7 +304,7 @@ form label {
     padding: 10px;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
-    -webkit-box-shadow: 0 2px 0 #4E840B; 
+    -webkit-box-shadow: 0 2px 0 #4E840B;
 }
 
 /** Pagination **/
@@ -452,8 +451,8 @@ tr.odd {
 }
 
 #crudListSearch {
-	background-color:#314660; 
-	border:0px;
+    background-color: #314660;
+    border: 0px;
 }
 
 #crudListTable {
@@ -522,7 +521,6 @@ tr.odd {
     font-size: 110% !important;
 }
 
-
 #remember-field {
     display: none;
 }
@@ -544,12 +542,12 @@ tr.odd {
     color: #444;
 }
 
-#newPost {
+#newNeed {
     border-top: 1px dotted #C0CBE5;
     padding-top: 15px;
 }
 
-#newPost a {
+#newNeed a {
     background: #C88116;
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
@@ -558,10 +556,10 @@ tr.odd {
     text-decoration: none;
     color: #fff;
     font-weight: bold;
-    -webkit-box-shadow: 1px 1px 2px rgba(0,0,0,.3);
+    -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .3);
 }
 
-#newPost a span {
+#newNeed a span {
     background: #7D510E;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
@@ -577,4 +575,38 @@ tr.odd {
 
 .hasError {
     background: pink;
+}
+
+.contentContainer {
+    background: none repeat scroll 0 0 #FCFCD7;
+    border-radius: 16px 16px 16px 16px;
+    color: #3C4313;
+    margin: 20px 0;
+    padding: 20px 30px 30px 20px;
+    position: relative;
+}
+
+.post-created #postTitle{
+    font-weight: bold;
+}
+
+#shareLink,#adminLink{
+    padding: 10px;
+    margin: 5px 0 5px 0;
+    background: none repeat scroll 0 0 #FFFFFF;
+}
+
+.shareButton{
+    cursor: pointer;
+}
+
+
+#postTitle,#email{
+    width:588px;
+}
+
+
+
+#tags{
+    display:none;
 }

@@ -9,6 +9,7 @@ import mapper._
 import code.model._
 import code.lib._
 
+
 /**
  * A class that's instantiated early and run.  It allows the application
  * to modify lift's environment
@@ -30,7 +31,7 @@ class Boot {
     // Use Lift's Mapper ORM to populate the database
     // you don't need to use Mapper to use Lift... use
     // any ORM you want
-    Schemifier.schemify(true, Schemifier.infoF _, User, Post, Comment, Tag, PostTag)
+    Schemifier.schemify(true, Schemifier.infoF _, User, Need, Offer, Tag, NeedTag)
 
     // where to search snippet
     LiftRules.addToPackages("code")
@@ -38,21 +39,28 @@ class Boot {
     val IfUserLoggedIn = If(() => User.loggedIn_?,
       () => RedirectResponse("/login"))
     val IfAdminLoggedIn = If(() => User.loggedIn_? && User.superUser_?,
-      () => RedirectResponse("/admin/posts/index"))
+      () => RedirectResponse("/admin/needs/index"))
+    val IfTokenCorrect = If(() => S.param("token").isDefined && S.param("token").openTheBox.toString.equals(YabeHelper.generateHash(S.param("id").openTheBox.toLong)),
+      () => RedirectResponse("/"))
+    val IfAdminTokenCorrect = If(() => S.param("token").isDefined && S.param("token").openTheBox.toString.equals(YabeHelper.generateAdminHash(S.param("id").openTheBox.toLong)),
+      () => RedirectResponse("/"))
 
     def menus = List(
-      Menu.i("Home") / "index", //>> User.AddUserMenusAfter,
-      Menu.i("Read") / "read",
-      Menu.i("Posts by tag") / "posts",
-      Menu.i("Test") / "test" ,
+      Menu.i("Home") / "index",
+      Menu.i("Read") / "read" / ** >> IfTokenCorrect,
+      Menu.i("Success") / "success" / ** >> IfAdminTokenCorrect,
+      Menu.i("Administration") / "administration" / ** >> IfAdminTokenCorrect,
+      Menu.i("My Needs") / "admin" / "needs" / ** //,
+     // Menu.i("Needs by tag") / "Needs",
+     // Menu.i("Test") / "test",
       //Can be accessed by both users and admins
-      Menu.i("My posts") / "admin" / "posts" / ** >> IfUserLoggedIn >> LocGroup("admin"),
+     // Menu.i("My posts") / "admin" / "posts" / **,
 
       //Can be accessed by admins
-      Menu.i("Posts") / "admin" / "all_posts" / ** >> IfAdminLoggedIn >> LocGroup("admin"),
-      Menu.i("Tags") / "admin" / "tags" / ** >> IfAdminLoggedIn >> LocGroup("admin"),
-      Menu.i("Comments") / "admin" / "comments" / ** >> IfAdminLoggedIn >> LocGroup("admin"),
-      Menu.i("Users") / "admin" / "users" / ** >> IfAdminLoggedIn >> LocGroup("admin")
+     // Menu.i("Needs") / "admin" / "all_posts" / ** >> IfAdminLoggedIn >> LocGroup("admin"),
+      //Menu.i("Tags") / "admin" / "tags" / ** >> IfAdminLoggedIn >> LocGroup("admin"),
+     // Menu.i("Offers") / "admin" / "offers" / ** >> IfAdminLoggedIn >> LocGroup("admin"),
+     // Menu.i("Users") / "admin" / "users" / ** >> IfAdminLoggedIn >> LocGroup("admin")
     )
 
     // Build SiteMap
@@ -63,48 +71,54 @@ class Boot {
     def sitemapMutators = User.sitemapMutator
 
     // set the sitemap.  Note if you don't want access control for
-    // each page, just comment this line out.
+    // each page, just offer this line out.
     LiftRules.setSiteMapFunc(() => sitemapMutators(sitemap))
 
     //Rewrite
     LiftRules.statelessRewrite.append {
       //Login and logout
-      case RewriteRequest(ParsePath("login" :: Nil, _, _, _), _, _) =>
-        RewriteResponse("user_mgt" :: "login" :: Nil)
-      case RewriteRequest(ParsePath("logout" :: Nil, _, _, _), _, _) =>
-        RewriteResponse("user_mgt" :: "logout" :: Nil)
+      //case RewriteRequest(ParsePath("login" :: Nil, _, _, _), _, _) =>
+      //  RewriteResponse("user_mgt" :: "login" :: Nil)
+      //case RewriteRequest(ParsePath("logout" :: Nil, _, _, _), _, _) =>
+      //  RewriteResponse("user_mgt" :: "logout" :: Nil)
 
       //Edit users
-      case RewriteRequest(ParsePath("admin" :: "users" :: "edit" :: id :: Nil, _, _, _), _, _) =>
-        RewriteResponse("admin" :: "users" :: "edit" :: Nil, Map("id" -> id))
+      //case RewriteRequest(ParsePath("admin" :: "users" :: "edit" :: id :: Nil, _, _, _), _, _) =>
+      //  RewriteResponse("admin" :: "users" :: "edit" :: Nil, Map("id" -> id))
 
       //Edit posts
-      case RewriteRequest(ParsePath("admin" :: "posts" :: "edit" :: id :: Nil, _, _, _), _, _) =>
-        RewriteResponse("admin" :: "posts" :: "edit" :: Nil, Map("id" -> id))
-      case RewriteRequest(ParsePath("admin" :: "all_posts" :: "edit" :: id :: Nil, _, _, _), _, _) =>
-        RewriteResponse("admin" :: "all_posts" :: "edit" :: Nil, Map("id" -> id))
+      //case RewriteRequest(ParsePath("admin" :: "posts" :: "edit" :: id :: Nil, _, _, _), _, _) =>
+      //        RewriteResponse("admin" :: "posts" :: "edit" :: Nil, Map("id" -> id))
 
-      //edit comment
-      case RewriteRequest(ParsePath("admin" :: "comments" :: "edit" :: id :: Nil, _, _, _), _, _) =>
-        RewriteResponse("admin" :: "comments" :: "edit" :: Nil, Map("id" -> id))
+
+      //case RewriteRequest(ParsePath("admin" :: "all_posts" :: "edit" :: id :: Nil, _, _, _), _, _) =>
+      //  RewriteResponse("admin" :: "all_posts" :: "edit" :: Nil, Map("id" -> id))
+
+      //edit offer
+      //case RewriteRequest(ParsePath("admin" :: "offers" :: "edit" :: id :: Nil, _, _, _), _, _) =>
+      //   RewriteResponse("admin" :: "offers" :: "edit" :: Nil, Map("id" -> id))
 
       //edit tag
-      case RewriteRequest(ParsePath("admin" :: "tags" :: "edit" :: id :: Nil,_,_,_),_,_) =>
-        RewriteResponse("admin" :: "tags" :: "edit" :: Nil, Map("id" -> id))
+      //case RewriteRequest(ParsePath("admin" :: "tags" :: "edit" :: id :: Nil, _, _, _), _, _) =>
+      //  RewriteResponse("admin" :: "tags" :: "edit" :: Nil, Map("id" -> id))
 
-      //read post
-      case RewriteRequest(ParsePath("read" :: id :: Nil, _, _, _), _, _) =>
-        RewriteResponse("read" :: Nil, Map("id" -> id))
 
       //list posts by tag
-      case RewriteRequest(ParsePath("posts" :: tag :: Nil, _, _, _), _, _) =>
-        RewriteResponse("posts":: Nil, Map("tag" -> tag))
+      //case RewriteRequest(ParsePath("posts" :: tag :: Nil, _, _, _), _, _) =>
+      //  RewriteResponse("posts" :: Nil, Map("tag" -> tag))
+
+      case RewriteRequest(ParsePath("administration" :: id :: token :: Nil, _, _, _), _, _) =>
+        RewriteResponse("admin" :: "needs" :: "edit" :: Nil, Map("id" -> id, "token" -> token))
+
+      //read post
+      case RewriteRequest(ParsePath("read" :: id :: token :: Nil, _, _, _), _, _) =>
+        RewriteResponse("read" :: Nil, Map("id" -> id, "token" -> token))
+
+      //successfully created Need
+      case RewriteRequest(ParsePath("success" :: id :: token :: Nil, _, _, _), _, _) =>
+        RewriteResponse("success" :: Nil, Map("id" -> id, "token" -> token))
     }
 
-    //Captcha function
-    LiftRules.dispatch.append {
-      case Req("captcha" :: Nil, _, _) => YabeHelper.captcha
-    }
 
     //Create Demo Users
     initUsers()
@@ -133,6 +147,7 @@ class Boot {
     // Make a transaction span the whole HTTP request
     S.addAround(DB.buildLoanWrapper)
   }
+
 
   //Init user data, one super user and one normal user.
   def initUsers() {

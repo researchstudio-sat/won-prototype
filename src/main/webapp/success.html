@@ -1,26 +1,29 @@
 <div class="lift:surround?with=default;at=content">
     <head_merge>
-        <title class="lift:Posts.titlePostsCreated"></title>
+        <title class="lift:Needs.titleNeedsCreated"></title>
     </head_merge>
-    <div class="post-created">
-        <h2 class="post-title">
-            <a class="post-title-link" href="/read/@id">@title</a>
-        </h2>
+    <div class="contentContainer">
+        <div class="lift:Needs.getSuccess">
+            <b>Congratulations</b>, you created your post
+            <a id="postTitle" class="post-link" href=""></a> .
 
-        <div class="post-created">
-            Congratulations, you created your post <a class="post-link" href="/read/@id/@token">@title</a>
+            It's smart to bookmark this page so you can not loose the admin link of your post.
+            You should keep the admin link a secret so no one can mess with your post.
+            Your post is not public listed, only people with the link can view your post.
 
-            use the following link to share your post:
-            <span class="post-link">
-                @host/read/@id/@token
-            </span>
+            <br> <br>
 
-            and use the following link to <a class="post-link" href="/read/@id/@adminToken">admin</a> your post:
-             <span class="post-link">
-                @host/admin/@id/@adminToken
-            </span>
+            You can use the following link to share your post to your friends:
+            <img class="shareButton" onclick="shareTwitter()" src="/static/images/twitter_icon.png"/>
+            <img class="shareButton" onclick="shareFacebook()" src="/static/images/facebook_icon.png"/>
+            <div class="post-link" id="shareLink" onclick="selectText('shareLink')"></div>
+
+            and use the following link to
+            <a id="adminQuickLink" class="post-link" href="">admin</a> your post:
+            <div class="post-link" id="adminLink" onclick="selectText('adminLink')"></div>
 
         </div>
     </div>
-
 </div>
+
+

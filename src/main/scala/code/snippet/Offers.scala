@@ -21,34 +21,29 @@ class Offers {
 
   def add = {
     var offer = Offer.create
-    var captchaCode = ""
-
     //User curry function to keep postId, otherwise, postId will be lost in ajax request
     def process(id: Long)(): JsCmd = {
       offer.postedAt.set(new java.util.Date)
       offer.post.set(id)
 
-      if ((S.getSessionAttribute("captcha") openOr "") != captchaCode) {
-        JE.Call("clearError") &
-          JE.Call("showError", Str("Captcha is not correct."))
-      } else {
-        offer.validate match {
-          case Nil => {
-            offer.save
-            //prepare for another offer
-            offer = Offer.create
 
-            OffersServer ! id
+      offer.validate match {
+        case Nil => {
+          offer.save
+          //prepare for another offer
+          offer = Offer.create
 
-            JE.Call("clearError") & JE.Call("clearForm")
-          }
-          case errors => S.error(errors); JE.Call("clearError") & JE.Call("showError", Str(errors.head.msg.toString))
+          OffersServer ! id
+
+          JE.Call("clearError") & JE.Call("clearForm")
         }
+        case errors => S.error(errors); JE.Call("clearError") & JE.Call("showError", Str(errors.head.msg.toString))
       }
+
     }
 
     "name=author" #> SHtml.text(offer.author.get, offer.author.set(_)) &
-      "name=code" #> SHtml.text(captchaCode, captchaCode = _) &
+      "name=email" #> SHtml.text(offer.email.get, offer.email.set(_)) &
       "name=content" #> (SHtml.textarea(offer.content.get, offer.content.set(_), "id" -> "content") ++
         SHtml.hidden(process(postId.is)))
   }
@@ -70,7 +65,9 @@ class Offers {
     "tr" #> offers.map {
       c =>
         odd = YabeHelper.oddOrEven(odd)
-        ".offer_item" #> bindModel(c, {"tr [class]" #> odd}) _
+        ".offer_item" #> bindModel(c, {
+          "tr [class]" #> odd
+        }) _
 
     }
   }
@@ -109,6 +106,7 @@ class Offers {
   def count = {
     "span" #> countOffers
   }
+
 
   private def countOffers() = {
     if (validSearch()) {

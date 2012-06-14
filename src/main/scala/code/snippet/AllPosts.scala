@@ -10,12 +10,12 @@ import code.lib._
 import net.liftweb.mapper.By._
 import code.lib.ModelBinder._
 
-class AllPosts {
+class AllNeeds {
 
   private object searchStr extends RequestVar("")
 
   def list: CssSel = {
-    val posts = getPosts()
+    val posts = getNeeds()
     var odd = "even"
     "tr" #> posts.map {
       p =>
@@ -28,7 +28,7 @@ class AllPosts {
 
   def delete: CssSel = {
     val id = S.param("id").openTheBox
-    val post = Post.find(By(Post.id, id.toLong)).openTheBox
+    val post = Need.find(By(Need.id, id.toLong)).openTheBox
 
     def process() = {
       post.delete_!
@@ -44,45 +44,45 @@ class AllPosts {
   }
 
   def count = {
-    "span" #> countPosts
+    "span" #> countNeeds
   }
 
   def sort = {
     val search = searchStr.is
 
-    if (getPostsOrder == "DESC")
+    if (getNeedsOrder == "DESC")
       "a [class]" #> "crudSortedDesc" &
         "a" #> SHtml.link("/admin/all_posts/index?order=ASC",
           () => searchStr(search),
-          <span>Posts</span>,
+          <span>Needs</span>,
           "class" -> "crudSortedDesc")
     else
       "a [class]" #> "crudSortedAsc" &
         "a" #> SHtml.link("/admin/all_posts/index?order=DESC",
           () => searchStr(search),
-          <span>Posts</span>,
+          <span>Needs</span>,
           "class" -> "crudSortedAsc")
   }
 
-  private def countPosts() = {
+  private def countNeeds() = {
     if (validSearch()) {
-      Post.count(BySql(" title like '%" + searchStr.is + "%' or content like '%" + searchStr.is + "%'",
+      Need.count(BySql(" title like '%" + searchStr.is + "%' or content like '%" + searchStr.is + "%'",
         IHaveValidatedThisSQL("charliechen", "2011-07-11")))
     } else
-      Post.count()
+      Need.count()
   }
 
-  private def getPosts() = {
+  private def getNeeds() = {
     val posts = validSearch() match {
-      case x if x == true => Post.findAll(
+      case x if x == true => Need.findAll(
         BySql(" title like '%" + searchStr.is + "%' or content like '%" + searchStr.is + "%'",
           IHaveValidatedThisSQL("charliechen", "2011-07-11")),
-        OrderBy(Post.title, Ascending))
+        OrderBy(Need.title, Ascending))
 
-      case _ => Post.findAll(OrderBy(Post.title, Ascending))
+      case _ => Need.findAll(OrderBy(Need.title, Ascending))
     }
 
-    getPostsOrder match {
+    getNeedsOrder match {
       case "DESC" => posts.reverse
       case "ASC" => posts
     }
@@ -91,7 +91,7 @@ class AllPosts {
   private def validSearch() = searchStr.is != ""
 
 
-  private def getPostsOrder = {
+  private def getNeedsOrder = {
     S.param("order") match {
       case Full(p) if p == "DESC" => "DESC"
       case _ => "ASC"
@@ -99,9 +99,9 @@ class AllPosts {
   }
 }
 
-class AllPostsAdd extends StatefulSnippet {
+class AllNeedsAdd extends StatefulSnippet {
 
-  val post = Post.create
+  val post = Need.create
 
   def dispatch = {
     case "render" => render
@@ -121,14 +121,14 @@ class AllPostsAdd extends StatefulSnippet {
 
 
     "#post-display" #> bindModel(post) _ &
-      renderTags(PostTag.findAll(By(PostTag.post, post.id)).map(_.tag.get)) &
+      renderTags(NeedTag.findAll(By(NeedTag.post, post.id)).map(_.tag.get)) &
       "type=submit" #> SHtml.onSubmitUnit(() => process)
   }
 }
 
-class AllPostsEdit extends StatefulSnippet {
+class AllNeedsEdit extends StatefulSnippet {
   private val id = S.param("id").openTheBox
-  private val post = Post.find(By(Post.id, id.toLong)).openTheBox
+  private val post = Need.find(By(Need.id, id.toLong)).openTheBox
 
   def dispatch = {
     case "render" => render
@@ -148,7 +148,7 @@ class AllPostsEdit extends StatefulSnippet {
     }
 
     "#post-display" #> bindModel(post) _ &
-      renderTags(PostTag.findAll(By(PostTag.post, post.id)).map(_.tag.get)) &
+      renderTags(NeedTag.findAll(By(NeedTag.post, post.id)).map(_.tag.get)) &
       "type=submit" #> SHtml.onSubmitUnit(() => process)
   }
 }

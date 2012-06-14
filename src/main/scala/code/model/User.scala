@@ -40,7 +40,7 @@ object User extends User with MetaMegaProtoUser[User] {
   override def fieldOrder = List(id, firstName, lastName, email,
   locale, timezone, password, textArea)
 
-  // comment this line out to require email validations
+  // offer this line out to require email validations
   override def skipEmailValidation = true 
 }
 
@@ -62,8 +62,8 @@ class User extends MegaProtoUser[User] {
     override def defaultValue=false
   }
 
-  def hasPosts():Boolean = {
-    val postCount = Post.count(By(Post.author, this.id.get))
+  def hasNeeds():Boolean = {
+    val postCount = 0// Need.count(By(Need.author, this.id.get))
     postCount match {
       case 0 => false
       case _ => true

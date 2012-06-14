@@ -8,25 +8,25 @@ import Helpers._
 import code.model._
 import code.lib._
 
-class CommentsList extends CometActor with CometListener {
-  private var comments = List[Comment]()
+class OffersList extends CometActor with CometListener {
+  private var offers = List[Offer]()
   
-  def registerWith = CommentsServer
+  def registerWith = OffersServer
   
   override def lowPriority = {
-    case c:List[Comment] => comments = c; reRender
+    case c:List[Offer] => offers = c; reRender
   }
   
   def render = {
-    ".comment-count *" #> (comments.length + " comments") &
-    ".comment" #> comments.map {
+    ".offer-count *" #> (offers.length + " offers") &
+    ".offer" #> offers.map {
       c => 
-        ".comment-author *" #> (c.author.get match {
+        ".offer-author *" #> (c.author.get match {
           case "" => "guest"
           case _ => c.author.get
         })  & 
-        ".comment-date *" #> YabeHelper.fmtDateStr(c.postedAt.get) &
-        ".comment-content-span" #> Unparsed(c.content.get.replaceAll("\n","<br />"))
+        ".offer-date *" #> YabeHelper.fmtDateStr(c.postedAt.get) &
+        ".offer-content-span" #> Unparsed(c.content.get.replaceAll("\n","<br />"))
     }
   }
 }

@@ -1,12 +1,12 @@
 <div class="lift:surround?with=admin;at=content">
 	<div id="crud">
 		<div id="crudContent">
-			<div id="crudList" class="Posts">
+			<div id="crudList" class="Needs">
 	
-				<h2 id="crudListTitle">Posts</h2>
+				<h2 id="crudListTitle">Needs</h2>
 	
 				<div id="crudListSearch" style="background-color:#314660; border:0px;">
-					<form class="lift:AllPosts.search?form=post">
+					<form class="lift:AllNeeds.search?form=post">
 						<input type="text" name="search" value="" /> 
 						<input type="submit" value="Search" />
 					</form>
@@ -17,24 +17,24 @@
 						<thead>
 							<tr>
 								<th>
-									<a class="lift:AllPosts.sort crudSortedAsc" href="/admin/all_posts/index?order=DESC">
-										Posts 
+									<a class="lift:AllNeeds.sort crudSortedAsc" href="/admin/all_posts/index?order=DESC">
+										Needs
 									</a>
 								</th>
 							</tr>
 						</thead>
-						<tr class="lift:AllPosts.list">
+						<tr class="lift:AllNeeds.list">
 							<td><a>{The title of the post}</a></td>
 						</tr>
 					</table>
 				</div>
 				
 				<div id="crudListPagination" style="background-color:#314660; border:0px;">
-					<p class="crudCount"><span class="lift:AllPosts.count">{posts number}</span> Posts</p>
+					<p class="crudCount"><span class="lift:AllNeeds.count">{posts number}</span> Needs</p>
 				</div>
 	
 				<p id="crudListAdd">
-					<a href="/admin/all_posts/add">Add Post</a>
+					<a href="/admin/all_posts/add">Add Need</a>
 				</p>
 			</div>
 		</div>

@@ -1,16 +1,16 @@
 <div class="lift:surround?with=admin;at=content">
 	<div id="crud">
 		<div id="crudContent">
-			<div id="crudBlank" class="Posts">
+			<div id="crudBlank" class="Needs">
 
-				<h2 id="crudBlankTitle">Edit Post</h2>
-				<form class="lift:AllPosts.delete">
-					<input type="submit" value="Delete Post" /> 
+				<h2 id="crudBlankTitle">Edit Need</h2>
+				<form class="lift:AllNeeds.delete">
+					<input type="submit" value="Delete Need" />
 				</form> 
 
 				<div class="objectForm">
 					<div class="lift:msgs?showAll=true"></div>
-					<form class="lift:AllPostsEdit?form=post">
+					<form class="lift:AllNeedsEdit?form=post">
                         <div id="post-display">
                             <div class="crudField crud_text">
                                 <label for="object_title"> Title </label>
@@ -19,7 +19,7 @@
                             </div>
 
                             <div class="crudField crud_date">
-                                <label for="object_postedAt"> Posted at </label> <input
+                                <label for="object_postedAt"> Needed at </label> <input
                                     id="object_postedAt" class="mb:postedAt" type="text" name="postedAt"
                                     value="" size="10" /> <span class="crudHelp"> yyyy-MM-dd
                                     format. Required. </span>

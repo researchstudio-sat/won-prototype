@@ -2,12 +2,12 @@ package code.model
 
 import net.liftweb.mapper._
 
-class PostTag extends LongKeyedMapper[PostTag] with IdPK {
-  def getSingleton = PostTag
-  object post extends MappedLongForeignKey(this, Post)
+class NeedTag extends LongKeyedMapper[NeedTag] with IdPK {
+  def getSingleton = NeedTag
+  object post extends MappedLongForeignKey(this, Need)
   object tag extends MappedLongForeignKey(this,Tag)
 }
 
-object PostTag extends PostTag with LongKeyedMetaMapper[PostTag] {
-    def join(p:Post, t:Tag) = this.create.tag(t).post(p).save
+object NeedTag extends NeedTag with LongKeyedMetaMapper[NeedTag] {
+    def join(p:Need, t:Tag) = this.create.tag(t).post(p).save
 }

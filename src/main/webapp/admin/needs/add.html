@@ -1,27 +1,34 @@
 <div class="lift:surround?with=admin;at=content">
-	<form class="lift:Needs.add?form=post">
-		<p>
-		<div class="lift:msgs?showAll=true"></div>
-		<p>
+    <form class="lift:Needs.add?form=post">
+        <p>
+
+        <div class="lift:msgs?showAll=true"></div>
+        <p>
+
         <div id="post-add">
             <p>
-            <label>Need title:</label>
-            <input id="postTitle" type="text" name="title" value="" class="mb:title" />
+                <label>Need title:</label>
+                <input id="postTitle" type="text" name="title" value="" class="mb:title"/>
             </p>
 
             <p>
-            <label>Write here:</label>
-            <textarea id="content" name="content" class="mb:content"></textarea>
+                <label>email:</label>
+                <textarea id="email" name="email" class="mb:email"></textarea>
+            </p>
+
+            <p>
+                <label>Write here:</label>
+                <textarea id="content" name="content" class="mb:content"></textarea>
             </p>
         </div>
 
-    	<p id="tags">
-        <label>Enter some tags:</label>
-        <input type="text" size="50" name="tags" value="" /> 
-        </p> 
-    
-    	<p> 
-        <input type="submit" value="Publish this post to the blog" /> 
-    	</p>
-	</form>
- </div>
+        <p id="tags">
+            <label>Enter some tags:</label>
+            <input type="text" size="50" name="tags" value=""/>
+        </p>
+
+        <p>
+            <input type="submit" value="Publish this post to the blog"/>
+        </p>
+    </form>
+</div>

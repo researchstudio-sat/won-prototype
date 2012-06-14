@@ -6,14 +6,14 @@ import actor._
 import net.liftweb.mapper._
 import code.model._
 
-object  CommentsServer extends LiftActor with ListenerManager {
-  private var comments = List[Comment]()
+object  OffersServer extends LiftActor with ListenerManager {
+  private var offers = List[Offer]()
   
-  def createUpdate = comments
+  def createUpdate = offers
   
   override def lowPriority = {
     case postId:Long => {
-      comments = Comment.findAll(By(Comment.post,postId))
+      offers = Offer.findAll(By(Offer.post,postId))
       updateListeners()
     }
   }

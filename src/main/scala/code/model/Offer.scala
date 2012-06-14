@@ -40,6 +40,11 @@ class Offer extends LongKeyedMapper[Offer] with IdPK {
     }
   }
 
+  object email extends MappedEmail(this,500) {
+
+  }
+
+
   object postedAt extends MappedDateTime(this) {
     override def validations = {
       def isDate(txt: java.util.Date) = {
