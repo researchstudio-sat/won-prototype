@@ -15,30 +15,30 @@ import code.lib._
 import ModelBinder._
 import code.comet._
 
-class Comments {
+class Offers {
 
   object postId extends RequestVar(S.param("id").openTheBox.toLong)
 
   def add = {
-    var comment = Comment.create
+    var offer = Offer.create
     var captchaCode = ""
 
     //User curry function to keep postId, otherwise, postId will be lost in ajax request
     def process(id: Long)(): JsCmd = {
-      comment.postedAt.set(new java.util.Date)
-      comment.post.set(id)
+      offer.postedAt.set(new java.util.Date)
+      offer.post.set(id)
 
       if ((S.getSessionAttribute("captcha") openOr "") != captchaCode) {
         JE.Call("clearError") &
           JE.Call("showError", Str("Captcha is not correct."))
       } else {
-        comment.validate match {
+        offer.validate match {
           case Nil => {
-            comment.save
-            //prepare for another comment
-            comment = Comment.create
+            offer.save
+            //prepare for another offer
+            offer = Offer.create
 
-            CommentsServer ! id
+            OffersServer ! id
 
             JE.Call("clearError") & JE.Call("clearForm")
           }
@@ -47,14 +47,14 @@ class Comments {
       }
     }
 
-    "name=author" #> SHtml.text(comment.author.get, comment.author.set(_)) &
+    "name=author" #> SHtml.text(offer.author.get, offer.author.set(_)) &
       "name=code" #> SHtml.text(captchaCode, captchaCode = _) &
-      "name=content" #> (SHtml.textarea(comment.content.get, comment.content.set(_), "id" -> "content") ++
+      "name=content" #> (SHtml.textarea(offer.content.get, offer.content.set(_), "id" -> "content") ++
         SHtml.hidden(process(postId.is)))
   }
 
   def initComet = {
-    CommentsServer ! postId.is
+    OffersServer ! postId.is
     "*" #> ""
   }
 
@@ -64,23 +64,23 @@ class Comments {
   private object searchStr extends RequestVar("")
 
   def list: CssSel = {
-    val comments = getComments()
+    val offers = getOffers()
     var odd = "even"
 
-    "tr" #> comments.map {
+    "tr" #> offers.map {
       c =>
         odd = YabeHelper.oddOrEven(odd)
-        ".comment_item" #> bindModel(c, {"tr [class]" #> odd}) _
+        ".offer_item" #> bindModel(c, {"tr [class]" #> odd}) _
 
     }
   }
 
   def delete = {
     val id = S.param("id").openTheBox
-    val comment = Comment.find(By(Comment.id, id.toLong)).openTheBox
+    val offer = Offer.find(By(Offer.id, id.toLong)).openTheBox
     def process() = {
-      comment.delete_!
-      S.redirectTo("/admin/comments/index")
+      offer.delete_!
+      S.redirectTo("/admin/offers/index")
     }
     "type=submit" #> SHtml.onSubmitUnit(process)
   }
@@ -88,15 +88,15 @@ class Comments {
   def sort = {
     val search = searchStr.is
 
-    if (getCommentsOrder == "DESC")
+    if (getOffersOrder == "DESC")
       "a [class]" #> "crudSortedDesc" &
-        "a" #> SHtml.link("/admin/comments/index?order=ASC",
+        "a" #> SHtml.link("/admin/offers/index?order=ASC",
           () => searchStr(search),
           <span>Contents</span>,
           "class" -> "crudSortedDesc")
     else
       "a [class]" #> "crudSortedAsc" &
-        "a" #> SHtml.link("/admin/comments/index?order=DESC",
+        "a" #> SHtml.link("/admin/offers/index?order=DESC",
           () => searchStr(search),
           <span>Content</span>,
           "class" -> "crudSortedAsc")
@@ -107,36 +107,36 @@ class Comments {
   }
 
   def count = {
-    "span" #> countComments
+    "span" #> countOffers
   }
 
-  private def countComments() = {
+  private def countOffers() = {
     if (validSearch()) {
-      Comment.count(BySql(" content like '%" + searchStr.is + "%' ",
+      Offer.count(BySql(" content like '%" + searchStr.is + "%' ",
         IHaveValidatedThisSQL("charliechen", "2011-07-21")))
     } else
-      Comment.count()
+      Offer.count()
   }
 
-  private def getComments() = {
-    val comments = validSearch() match {
-      case x if x == true => Comment.findAll(
+  private def getOffers() = {
+    val offers = validSearch() match {
+      case x if x == true => Offer.findAll(
         BySql(" content like '%" + searchStr.is + "%'",
           IHaveValidatedThisSQL("charliechen", "2011-07-21")),
-        OrderBy(Comment.id, Ascending))
+        OrderBy(Offer.id, Ascending))
 
-      case _ => Comment.findAll(OrderBy(Comment.content, Ascending))
+      case _ => Offer.findAll(OrderBy(Offer.content, Ascending))
     }
 
-    getCommentsOrder match {
-      case "DESC" => comments.reverse
-      case "ASC" => comments
+    getOffersOrder match {
+      case "DESC" => offers.reverse
+      case "ASC" => offers
     }
   }
 
   private def validSearch() = searchStr.is != ""
 
-  private def getCommentsOrder = {
+  private def getOffersOrder = {
     S.param("order") match {
       case Full(p) if p == "DESC" => "DESC"
       case _ => "ASC"
@@ -144,9 +144,9 @@ class Comments {
   }
 }
 
-class CommentsEdit extends StatefulSnippet {
+class OffersEdit extends StatefulSnippet {
   private val id = S.param("id").openTheBox
-  private val comment = Comment.find(By(Comment.id, id.toLong)).openTheBox
+  private val offer = Offer.find(By(Offer.id, id.toLong)).openTheBox
 
   def dispatch = {
     case "render" => render
@@ -155,17 +155,17 @@ class CommentsEdit extends StatefulSnippet {
   def render = {
 
     def process() = {
-      comment.validate match {
+      offer.validate match {
         case Nil => {
-          comment.save
-          S.redirectTo("/admin/comments/index")
+          offer.save
+          S.redirectTo("/admin/offers/index")
         }
         case errors => S.error(errors)
       }
     }
 
     "*" #>
-      bindModel(comment, {
+      bindModel(offer, {
         "type=submit" #> SHtml.onSubmitUnit(() => process)
       }) _
 

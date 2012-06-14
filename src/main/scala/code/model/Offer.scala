@@ -8,8 +8,8 @@ import code.lib.YabeHelper
 import xml.{Node, Text}
 import net.liftweb.common.{Box, Full}
 
-class Comment extends LongKeyedMapper[Comment] with IdPK {
-  def getSingleton = Comment
+class Offer extends LongKeyedMapper[Offer] with IdPK {
+  def getSingleton = Offer
 
   object author extends MappedString(this, 140) {
     override def asHtml = {
@@ -67,28 +67,28 @@ class Comment extends LongKeyedMapper[Comment] with IdPK {
     }
   }
 
-  object post extends MappedLongForeignKey(this, Post) {
+  object post extends MappedLongForeignKey(this, Need) {
 
     override def validSelectValues = {
-      val posts = Post.findAll().map((x:Post) => (x.id.get, x.title.get))
+      val posts = Need.findAll().map((x:Need) => (x.id.get, x.title.get))
       val list = (0.toLong, "(Please select a post)") :: posts
       Full(list)
     }
 
     override def validations = {
-      def validatePost(id: Long) = {
-        val posts = Post.findAll(By(Post.id, id))
+      def validateNeed(id: Long) = {
+        val posts = Need.findAll(By(Need.id, id))
         posts match {
-          case Nil => List(FieldError(this, "Please add comments to valid posts."))
+          case Nil => List(FieldError(this, "Please add offers to valid posts."))
           case _ => List[FieldError]()
         }
       }
 
-      validatePost _ :: Nil
+      validateNeed _ :: Nil
     }
 
     override def asHtml = {
-      val post = Post.find(By(Post.id, this.get))
+      val post = Need.find(By(Need.id, this.get))
       post match {
         case Full(p) => Text(p.title.get)
         case _ => Text("")
@@ -98,4 +98,4 @@ class Comment extends LongKeyedMapper[Comment] with IdPK {
 
 }
 
-object Comment extends Comment with LongKeyedMetaMapper[Comment] with CRUDify[Long, Comment]
+object Offer extends Offer with LongKeyedMetaMapper[Offer] with CRUDify[Long, Offer]

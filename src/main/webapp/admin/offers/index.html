@@ -1,10 +1,10 @@
 <div class="lift:surround?with=admin;at=content">
 	<div id="crud">
 		<div id="crudContent">
-			<div id="crudList" class="Comments">
-				<h2 id="crudListTitle">Comments</h2>
+			<div id="crudList" class="Offers">
+				<h2 id="crudListTitle">Offers</h2>
 				<div id="crudListSearch" style="background-color:#314660; border:0px;">
-					<form class="lift:Comments.search?form=post">
+					<form class="lift:Offers.search?form=post">
 						<input type="text" name="search" value="" /> 
 						<input type="submit" value="Search" /> 
 					</form>
@@ -14,8 +14,8 @@
 					<table>
 						<thead>
 							<tr>
-								<th width="33.3333333333%"><a class="lift:Comments.sort crudSortedAsc"
-									href="/admin/comments/index?order=DESC">
+								<th width="33.3333333333%"><a class="lift:Offers.sort crudSortedAsc"
+									href="/admin/offers/index?order=DESC">
 										Content </a></th>
 								<th width="33.3333333333%">
 										Related post </th>
@@ -23,16 +23,16 @@
 										Author </th>
 							</tr>
 						</thead>
-						<tr class="lift:Comments.list comment_item">
-							<td><a href="/admin/comments/edit/@id"> @content.short </a></td>
+						<tr class="lift:Offers.list offer_item">
+							<td><a href="/admin/offers/edit/@id"> @content.short </a></td>
 							<td><span class="post-title">@post</span></td>
-							<td><span class="comment-author">@author</span></td>
+							<td><span class="offer-author">@author</span></td>
 						</tr>
 					</table>
 				</div>
 
 				<div id="crudListPagination" style="background-color:#314660; border:0px;">
-					<p class="lift:Comments.count crudCount"><span>1</span> Comments</p>
+					<p class="lift:Offers.count crudCount"><span>1</span> Offers</p>
 				</div>
 
 			</div>

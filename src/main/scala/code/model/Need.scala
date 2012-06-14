@@ -10,7 +10,7 @@ import net.liftweb.textile.TextileParser
 
 class Post extends LongKeyedMapper[Post] with IdPK {
   def getSingleton = Post
-
+   /*
   object author extends MappedLongForeignKey(this, User) {
     override def validSelectValues = {
       val users = User.findAll().map( (x:User) => (x.id.get, x.email.get) )
@@ -38,7 +38,7 @@ class Post extends LongKeyedMapper[Post] with IdPK {
     def last:Node = {
       Text(getAuthor.lastName.get)
     }
-  }
+  }    */
 
   object title extends MappedString(this, 140) {
     override def validations = {
