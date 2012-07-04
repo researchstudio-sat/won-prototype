@@ -60,7 +60,7 @@ class Boot {
      // Menu.i("Needs") / "admin" / "all_posts" / ** >> IfAdminLoggedIn >> LocGroup("admin"),
       //Menu.i("Tags") / "admin" / "tags" / ** >> IfAdminLoggedIn >> LocGroup("admin"),
      // Menu.i("Offers") / "admin" / "offers" / ** >> IfAdminLoggedIn >> LocGroup("admin"),
-     // Menu.i("Users") / "admin" / "users" / ** >> IfAdminLoggedIn >> LocGroup("admin")
+     // Menu.i("Users") / "admin" / "users" / ** >>  IfAdminLoggedIn >> LocGroup("admin")
     )
 
     // Build SiteMap
