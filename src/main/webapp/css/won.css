@@ -1,112 +1,291 @@
-body{
-	background-color:#c0deed;
+body {
+    background-color: #c0deed;
 }
 
-.brand{
-	font-weight:bold !important;
+.brand {
+    font-weight: bold !important;
 
 }
 
-.main{
-	min-height:250px;
-	background-color:#FFFFFF;
-	margin-top:-20px;
-	padding:15px;
-	
-	-webkit-border-radius: 0px 0px 10px 10px;
+.main {
+    min-height: 250px;
+    background-color: #FFFFFF;
+    margin-top: -20px;
+    padding: 15px;
+
+    -webkit-border-radius: 0px 0px 10px 10px;
     -moz-border-radius: 0px 0px 10px 10px;
     border-radius: 0px 0px 10px 10px;
 }
 
-.bottom{
-	margin-top: 20px;
-	margin-bottom: 20px;
-	height:20px;
-	background-color:#FFFFFF;
-	padding:15px;
-	
-	-webkit-border-radius: 10px;
-    -moz-border-radius:10px;
+.bottom {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 20px;
+    background-color: #FFFFFF;
+    padding: 15px;
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
     border-radius: 10px;
 }
 
-.content{
-	padding: 30px;
+.content {
+    padding: 30px;
 }
 
-.bottom a{
-	padding-left:20px;
+.bottom a {
+    padding-left: 20px;
 }
 
-.need{
-	background-color: #ff6b6b;
+.need {
+    background-color: #ff6b6b;
 }
 
-.offer{
-	background-color: #8ec1da;
+.offer {
+    background-color: #8ec1da;
 }
 
-.item{
-	padding: 5px 10px 10px 10px;	
-	-webkit-border-radius: 10px;
-    -moz-border-radius:10px;
+.item {
+    padding: 5px 10px 10px 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
     border-radius: 10px;
-	color:#fff;
+    color: #fff;
 }
 
-.item .item-header .item-type{
-	text-align:right;
+.item .item-header .item-type {
+    text-align: right;
 }
 
-.relations{
-	padding:10px;
-	padding-top:50px;
+.relations {
+    padding: 10px;
+    padding-top: 50px;
 }
 
-.relation{
-	width:136px;
-	text-align:center;
-	margin:14px;
-	color:#fff;
-	font-weight:bold;
+.relation {
+    width: 136px;
+    text-align: center;
+    margin: 14px;
+    color: #fff;
+    font-weight: bold;
 }
 
-.relations .arrow-left{
-	width: 0; 
-	height: 0; 
-	border-bottom: 10px solid transparent;
+.relations .arrow-left {
+    width: 0;
+    height: 0;
+    border-bottom: 10px solid transparent;
     border-top: 8px solid transparent;
-	background-color:#fff !important;
-	float:left;
+    background-color: #fff !important;
+    float: left;
 }
 
-.arrow-left.offer{
-	border-right:14px solid #8ec1da; 
+.arrow-left.offer {
+    border-right: 14px solid #8ec1da;
 }
 
-.arrow-left.need{
-	border-right:14px solid #ff6b6b; 
+.arrow-left.need {
+    border-right: 14px solid #ff6b6b;
 }
 
-
-.relations .arrow-right{
-	width: 0; 
-	height: 0; 
-	border-top: 8px solid transparent;
-	border-bottom: 10px solid transparent; 
-	float:right;
-	margin-right: -14px;
-	background-color:#fff !important;
+.relations .arrow-right {
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 10px solid transparent;
+    float: right;
+    margin-right: -14px;
+    background-color: #fff !important;
 }
 
-.arrow-right.offer{
-	border-left:14px solid #8ec1da; 
+.arrow-right.offer {
+    border-left: 14px solid #8ec1da;
 }
 
-.arrow-right.need{
-	border-left:14px solid #ff6b6b; 
+.arrow-right.need {
+    border-left: 14px solid #ff6b6b;
 }
 
-.clear{clear:both;}
+.clear {
+    clear: both;
+}
 
+#post-add input, #post-add #tags input {
+    width: 100%;
+}
 
+.post-created #postTitle {
+    font-weight: bold;
+}
+
+#shareLink, #adminLink {
+    padding: 10px;
+    margin: 5px 0 5px 0;
+    background: none repeat scroll 0 0 #FFFFFF;
+}
+
+.shareButton {
+    cursor: pointer;
+}
+
+#postTitle, #email {
+    width: 588px;
+}
+
+textarea#content {
+
+    width: 100%;
+}
+
+input {
+    width: 90%;
+}
+
+textarea {
+    width: 90%;
+}
+
+#tags {
+    display: none;
+}
+
+.post .post-title {
+    margin: 0;
+}
+
+.post .post-title a {
+    font-size: 36px;
+    color: #000;
+    text-decoration: none;
+}
+
+.post .post-metadata {
+    color: #BAC36E;
+    display: block;
+    font-size: 70%;
+    display: inline-block;
+}
+
+.post .post-author {
+    font-size: 130%;
+    font-weight: bold;
+}
+
+.post .post-metadata a {
+    color: #9FA85D;
+}
+
+.post .post-content {
+    position: relative;
+    background: #fff;
+    padding: 10px;
+    margin: 10px 0 50px 0;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-box-shadow: 0 2px 0 #BBBBBB;
+}
+
+.post .about {
+    text-indent: -999em;
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #fff;
+    border-top: 0;
+    position: absolute;
+    top: -6px;
+    left: 24px;
+}
+
+/** Offers **/
+
+.offers {
+    margin-bottom: 30px;
+}
+
+h3 {
+    color: #869AB1;
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+h3 span {
+    font-size: 80%;
+    font-weight: normal;
+}
+
+.offer {
+    width: 70%;
+    clear: both;
+}
+
+.offer .offer-metadata {
+    color: #869AB1;
+    display: block;
+    font-size: 50%;
+    display: block;
+    float: left;
+    width: 80px;
+    text-align: right;
+}
+
+.offer .offer-author {
+    font-size: 150%;
+    font-weight: bold;
+    display: block;
+}
+
+.offer .offer-content {
+    position: relative;
+    background: #E4EAFF;
+    color: #242C58;
+    font-size: 80%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 100px;
+    padding: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+}
+
+.offer .about {
+    text-indent: -999em;
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 10px solid #E4EAFF;
+    border-left: 0;
+    position: absolute;
+    top: 4px;
+    left: -4px;
+}
+
+#postTypeSelector {
+    width: 260px;
+    margin-bottom: 5px;
+    height: 40px;
+}
+
+#postTypeSelector > span:nth-child(1) {
+    background-color: #ff6b6b;
+    padding: 5px;
+    width: 100px;
+    float: left;
+    border-radius: 5px 0px 0px 5px;
+    -moz-border-radius: 5px 0px 0px 5px;
+    -webkit-border-radius: 5px 0px 0px 5px;
+}
+
+#postTypeSelector > span:nth-child(2) {
+    background-color: #8ec1da;
+    padding: 5px;
+    width: 100px;
+    float: left;
+    border-radius: 0px 5px 5px 0px;
+    -moz-border-radius: 0px 5px 5px 0px;
+    -webkit-border-radius: 0px 5px 5px 0px;
+}
