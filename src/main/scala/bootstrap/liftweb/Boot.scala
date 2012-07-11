@@ -35,6 +35,7 @@ class Boot {
 
     // where to search snippet
     LiftRules.addToPackages("code")
+    LiftRules.addToPackages("code/snippet")
 
     val IfUserLoggedIn = If(() => User.loggedIn_?,
       () => RedirectResponse("/login"))
@@ -46,11 +47,16 @@ class Boot {
       () => RedirectResponse("/"))
 
     def menus = List(
+      Menu.i("Sandbox") / "sandbox" / "index",
       Menu.i("Home") / "index",
       Menu.i("Read") / "read" / ** >> IfTokenCorrect,
       Menu.i("Success") / "success" / ** >> IfAdminTokenCorrect,
       Menu.i("Administration") / "administration" / ** >> IfAdminTokenCorrect,
-      Menu.i("My Needs") / "admin" / "needs" / ** //,
+      Menu.i("My Needs") / "admin" / "needs" / ** ,
+      Menu.i("ALL") / "admin" / **,
+      Menu.i("Post created") / "admin" / "post" / "created",
+      Menu.i("User Login") / "admin" / "users" / "login"
+
      // Menu.i("Needs by tag") / "Needs",
      // Menu.i("Test") / "test",
       //Can be accessed by both users and admins

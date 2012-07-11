@@ -1,0 +1,44 @@
+<div class="lift:surround?with=default;at=content">
+    <p>
+
+    <div class="lift:msgs?showAll=true"></div>
+    <p>
+
+    <div class="lift:AddPost.submitForm?form=POST">
+        <p>
+            <e:post_type/>
+        <!--input type="radio" title="Need" value="need" />
+        <input type="radio" title="Offer" value="offer" /-->
+        </p>
+
+        <p>
+            <label>Post title:</label>
+            <e:post_title/>
+        </p>
+
+        <p>
+            <label>Description:</label>
+            <e:description/>
+        </p>
+
+        <p>
+            <label>Zip code:</label>
+            <e:zip_code/>
+        </p>
+        <p>
+            <e:submit_post/>
+            <!--input type="submit" value="Create"/-->
+        </p>
+    </div>
+    <hr/>
+    <div class="lift:AddPost.uploadPreview?form=POST;multipart=TRUE">
+        <p>
+            <e:preview_picture/>
+        </p>
+        <p>
+            <e:submit_picture/>
+            <!--input type="submit" value="Upload picture"/-->
+        </p>
+    </div>
+
+</div>
