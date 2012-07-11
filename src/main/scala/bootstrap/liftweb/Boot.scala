@@ -49,10 +49,18 @@ class Boot {
     def menus = List(
       Menu.i("Sandbox") / "sandbox" / "index",
       Menu.i("Home") / "index",
+      Menu.i("imprint") / "imprint",
+      Menu.i("contact") / "contact",
+      Menu.i("privacy") / "privacy",
+      Menu.i("terms") / "terms",
+      Menu.i("features") / "features",
+      Menu.i("about") / "about",
+      Menu.i("activities") / "activities",
+
       Menu.i("Read") / "read" / ** >> IfTokenCorrect,
       Menu.i("Success") / "success" / ** >> IfAdminTokenCorrect,
       Menu.i("Administration") / "administration" / ** >> IfAdminTokenCorrect,
-      Menu.i("My Needs") / "admin" / "needs" / ** ,
+     // Menu.i("My Needs") / "admin" / "needs" / ** //,
       Menu.i("ALL") / "admin" / **,
       Menu.i("Post created") / "admin" / "post" / "created",
       Menu.i("User Login") / "admin" / "users" / "login"

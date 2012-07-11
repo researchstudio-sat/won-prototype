@@ -33,11 +33,11 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">WON</a>
+          <a class="brand" href="/">WON</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#activities">Activities</a></li>
+              <li class="active"><a href="/">Home</a></li>
+              <li><a href="/activities">Activities</a></li>
             </ul>
 			<ul class="nav pull-right">
 				<li class="dropdown">
@@ -65,12 +65,12 @@
 		</div> <!-- /container -->
 
 		<div class="container bottom border-radius">
-			<a href="#">About</a>
-			<a href="#">Features</a>
-			<a href="#">Terms</a>
-			<a href="#">Privacy</a>
-			<a href="#">Contact</a>
-			<a href="#">Imprint</a>
+			<a href="/about">About</a>
+			<a href="/features">Features</a>
+			<a href="/terms">Terms</a>
+			<a href="/privacy">Privacy</a>
+			<a href="/contact">Contact</a>
+			<a href="/imprint">Imprint</a>
 		</div> <!-- /container -->
 	</div>
     <!-- Le javascript
@@ -90,6 +90,19 @@
     <script src="/js/bootstrap-carousel.js"></script>
     <script src="/js/bootstrap-typeahead.js"></script>
 
-	<script> $('.dropdown-toggle').dropdown() </script>
+	<script>
+        $('.dropdown-toggle').dropdown();
+    </script>
+
+    <div id="fb-root"></div>
+    <script>
+     (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    </script>
   </body>
 </html>
