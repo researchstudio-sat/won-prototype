@@ -56,7 +56,7 @@ class Boot {
       Menu.i("features") / "features",
       Menu.i("about") / "about",
       Menu.i("activities") / "activities",
-
+      Menu.i("relation") / "relation",
       Menu.i("Read") / "read" / ** >> IfTokenCorrect,
       Menu.i("Success") / "success" / ** >> IfAdminTokenCorrect,
       Menu.i("Administration") / "administration" / ** >> IfAdminTokenCorrect,
