@@ -66,7 +66,7 @@ class AllNeeds {
 
   private def countNeeds() = {
     if (validSearch()) {
-      Need.count(BySql(" title like '%" + searchStr.is + "%' or content like '%" + searchStr.is + "%'",
+      Need.count(BySql(" title like '%" + searchStr.is + "%' or description$ like '%" + searchStr.is + "%'",
         IHaveValidatedThisSQL("charliechen", "2011-07-11")))
     } else
       Need.count()
@@ -75,7 +75,7 @@ class AllNeeds {
   private def getNeeds() = {
     val posts = validSearch() match {
       case x if x == true => Need.findAll(
-        BySql(" title like '%" + searchStr.is + "%' or content like '%" + searchStr.is + "%'",
+        BySql(" title like '%" + searchStr.is + "%' or description$ like '%" + searchStr.is + "%'",
           IHaveValidatedThisSQL("charliechen", "2011-07-11")),
         OrderBy(Need.title, Ascending))
 

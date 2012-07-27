@@ -1203,7 +1203,7 @@
         , content = this.getContent()
 
       $tip.find('.popover-title')[this.isHTML(title) ? 'html' : 'text'](title)
-      $tip.find('.popover-content > *')[this.isHTML(content) ? 'html' : 'text'](content)
+      $tip.find('.popover-description$ > *')[this.isHTML(content) ? 'html' : 'text'](content)
 
       $tip.removeClass('fade top bottom left right in')
     }
@@ -1217,7 +1217,7 @@
         , $e = this.$element
         , o = this.options
 
-      content = $e.attr('data-content')
+      content = $e.attr('data-description$')
         || (typeof o.content == 'function' ? o.content.call($e[0]) :  o.content)
 
       return content
@@ -1251,7 +1251,7 @@
   $.fn.popover.defaults = $.extend({} , $.fn.tooltip.defaults, {
     placement: 'right'
   , content: ''
-  , template: '<div class="popover"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>'
+  , template: '<div class="popover"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-description$"><p></p></div></div></div>'
   })
 
 }(window.jQuery);/* =============================================================

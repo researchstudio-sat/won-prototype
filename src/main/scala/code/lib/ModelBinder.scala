@@ -180,7 +180,7 @@ trait ModelBinder {
     }
 
     //transform show fields first, then transform input fields.
-    // this will guarantee that '@fieldName' content in input fields would not be transformed by transformShow
+    // this will guarantee that '@fieldName' description$ in input fields would not be transformed by transformShow
     tranformInput(new RuleTransformer(tranformShow).transform(in))
   }
 }

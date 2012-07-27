@@ -24,7 +24,7 @@ class Offer extends LongKeyedMapper[Offer] with IdPK {
     override def validations = {
       def notNull(txt: String) = {
         if (txt == "")
-          List(FieldError(this, "Please input content."))
+          List(FieldError(this, "Please input description$."))
         else
           List[FieldError]()
       }

@@ -58,7 +58,7 @@ class Needs {
 
   def titleNeedsCreated: CssSel = {
     "*" #> <title>
-      {("Need successfully created. ")}
+      {("Need1 successfully created. ")}
     </title>
   }
 
@@ -127,14 +127,14 @@ class Needs {
   //Count the number of posts that posted by current user
   def countByUser: CssSel = {
     val userId = User.currentUserId.openTheBox
-    val count = 0 //Need.count(By(Need.author, userId.toLong))
+    val count = 0 //Need1.count(By(Need1.author, userId.toLong))
     "span" #> count
   }
 
   //list posts posted by this user
   /*def listByUser: CssSel = {
     val userId = User.currentUserId.openTheBox
-    val posts = Need.findAll(By( userId.toLong, userId.toLong))
+    val posts = Need1.findAll(By( userId.toLong, userId.toLong))
 
     var odd = "even"
     "*" #> posts.map {
@@ -152,7 +152,7 @@ class Needs {
 
     def process() = {
       post.postedAt.set(new Date())
-      //post.email.set(S.param("email").openTheBox)
+      //post.email$$.set(S.param("email$$").openTheBox)
       post.validate match {
         case Nil => {
           post.save

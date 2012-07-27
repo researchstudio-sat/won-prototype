@@ -10,7 +10,7 @@ import net.liftweb.http.S
  */
 object User extends User with MetaMegaProtoUser[User] {
   override def dbTableName = "users" // define the DB table name
-  //override def screenWrap = Full(<lift:surround with="default" at="content">
+  //override def screenWrap = Full(<lift:surround with="default" at="description$">
 	//		       <lift:bind /></lift:surround>)
 	
 	override def homePage = "/admin/posts/index"
@@ -40,7 +40,7 @@ object User extends User with MetaMegaProtoUser[User] {
   override def fieldOrder = List(id, firstName, lastName, email,
   locale, timezone, password, textArea)
 
-  // offer this line out to require email validations
+  // offer this line out to require email$$ validations
   override def skipEmailValidation = true 
 }
 
@@ -63,7 +63,7 @@ class User extends MegaProtoUser[User] {
   }
 
   def hasNeeds():Boolean = {
-    val postCount = 0// Need.count(By(Need.author, this.id.get))
+    val postCount = 0// Need1.count(By(Need1.author, this.id.get))
     postCount match {
       case 0 => false
       case _ => true

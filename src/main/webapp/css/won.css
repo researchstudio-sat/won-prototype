@@ -289,3 +289,39 @@ h3 span {
     -moz-border-radius: 0px 5px 5px 0px;
     -webkit-border-radius: 0px 5px 5px 0px;
 }
+
+#postIntentionSelector {
+    width: 360px;
+    margin-bottom: 5px;
+    height: 40px;
+}
+
+#postIntentionSelector > span:nth-child(1) {
+    background-color: #ff6b6b;
+    padding: 5px;
+    width: 100px;
+    float: left;
+    border-radius: 5px 0px 0px 5px;
+    -moz-border-radius: 5px 0px 0px 5px;
+    -webkit-border-radius: 5px 0px 0px 5px;
+}
+
+#postIntentionSelector > span:nth-child(2) {
+    background-color: #8ec1da;
+    padding: 5px;
+    width: 100px;
+    float: left;
+    border-radius: 0px 0px 0px 0px;
+    -moz-border-radius: 0px 0px 0px 0px;
+    -webkit-border-radius: 0px 0px 0px 0px;
+}
+
+#postIntentionSelector > span:nth-child(3) {
+    background-color: #67AD10;
+    padding: 5px;
+    width: 100px;
+    float: left;
+    border-radius: 0px 5px 5px 0px;
+    -moz-border-radius: 0px 5px 5px 0px;
+    -webkit-border-radius: 0px 5px 5px 0px;
+}

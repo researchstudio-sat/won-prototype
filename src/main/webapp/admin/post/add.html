@@ -4,11 +4,15 @@
     <div class="lift:msgs?showAll=true"></div>
     <p>
 
-    <div class="lift:AddPost.submitForm?form=POST">
+    <div class="lift:AddPost.submitForm?form=POST;multipart=true">
+<!--        <p>
+          <div id="postTypeSelector">  <e:post_type/> </div>
+        &lt;!&ndash;input type="radio" title="Need" value="need" />
+        <input type="radio" title="Offer" value="offer" /&ndash;&gt;
+        </p>-->
         <p>
-          <div id="postTypeSelector">  <e:post_type/>    </div>
-        <!--input type="radio" title="Need" value="need" />
-        <input type="radio" title="Offer" value="offer" /-->
+            <div id="postIntentionSelector"> <e:post_intention/>    </div>
+
         </p>
             <div class="clear"></div>
         <p>
@@ -20,25 +24,33 @@
             <label>Description:</label>
             <e:description/>
         </p>
-
+    <p>
+    <td>Upload a photo! (JPEG or PNG)</td>
+    <td><e:receipt /></td>
+    </p>
+    <!--
         <p>
             <label>Zip code:</label>
             <e:zip_code/>
         </p>
+    /-->
         <p>
             <e:submit_post/>
             <!--input type="submit" value="Create"/-->
         </p>
+
+    <!--
+</div>
+<hr/>
+<div class="lift:AddPost.uploadPreview?form=POST;multipart=TRUE">
+<p>
+ <e:preview_picture/>
+</p>
+<p>
+ <e:submit_picture/>
+ <!--input type="submit" value="Upload picture"/-->
+    <!--      </p>
     </div>
-    <hr/>
-    <div class="lift:AddPost.uploadPreview?form=POST;multipart=TRUE">
-        <p>
-            <e:preview_picture/>
-        </p>
-        <p>
-            <e:submit_picture/>
-            <!--input type="submit" value="Upload picture"/-->
-        </p>
-    </div>
+/-->
 
 </div>

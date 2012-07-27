@@ -43,8 +43,8 @@ class Offers {
     }
 
     "name=author" #> SHtml.text(offer.author.get, offer.author.set(_)) &
-      "name=email" #> SHtml.text(offer.email.get, offer.email.set(_)) &
-      "name=content" #> (SHtml.textarea(offer.content.get, offer.content.set(_), "id" -> "content") ++
+      "name=email$$" #> SHtml.text(offer.email.get, offer.email.set(_)) &
+      "name=description$" #> (SHtml.textarea(offer.content.get, offer.content.set(_), "id" -> "description$") ++
         SHtml.hidden(process(postId.is)))
   }
 
@@ -110,7 +110,7 @@ class Offers {
 
   private def countOffers() = {
     if (validSearch()) {
-      Offer.count(BySql(" content like '%" + searchStr.is + "%' ",
+      Offer.count(BySql(" description$ like '%" + searchStr.is + "%' ",
         IHaveValidatedThisSQL("charliechen", "2011-07-21")))
     } else
       Offer.count()
@@ -119,7 +119,7 @@ class Offers {
   private def getOffers() = {
     val offers = validSearch() match {
       case x if x == true => Offer.findAll(
-        BySql(" content like '%" + searchStr.is + "%'",
+        BySql(" description$ like '%" + searchStr.is + "%'",
           IHaveValidatedThisSQL("charliechen", "2011-07-21")),
         OrderBy(Offer.id, Ascending))
 

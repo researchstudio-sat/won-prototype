@@ -26,12 +26,14 @@ class Boot {
       LiftRules.unloadHooks.append(vendor.closeAllConnections_! _)
 
       DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
+
+
     }
 
     // Use Lift's Mapper ORM to populate the database
     // you don't need to use Mapper to use Lift... use
     // any ORM you want
-    Schemifier.schemify(true, Schemifier.infoF _, User, Need, Offer, Tag, NeedTag)
+    Schemifier.schemify(true, Schemifier.infoF _, User, Need, Offer, Tag, NeedTag, PostImage)
 
     // where to search snippet
     LiftRules.addToPackages("code")
@@ -128,7 +130,7 @@ class Boot {
       case RewriteRequest(ParsePath("read" :: id :: token :: Nil, _, _, _), _, _) =>
         RewriteResponse("read" :: Nil, Map("id" -> id, "token" -> token))
 
-      //successfully created Need
+      //successfully created Need1
       case RewriteRequest(ParsePath("success" :: id :: token :: Nil, _, _, _), _, _) =>
         RewriteResponse("success" :: Nil, Map("id" -> id, "token" -> token))
     }

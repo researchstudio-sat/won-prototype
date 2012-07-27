@@ -26,7 +26,7 @@ class OffersList extends CometActor with CometListener {
           case _ => c.author.get
         })  & 
         ".offer-date *" #> YabeHelper.fmtDateStr(c.postedAt.get) &
-        ".offer-content-span" #> Unparsed(c.content.get.replaceAll("\n","<br />"))
+        ".offer-description$-span" #> Unparsed(c.content.get.replaceAll("\n","<br />"))
     }
   }
 }
