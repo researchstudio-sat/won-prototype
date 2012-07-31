@@ -4,6 +4,7 @@ import xml.NodeSeq
 import net.liftweb.util.Helpers._
 import net.liftweb.common.{Box, Full, Empty}
 import code.session.SessionState
+import code.service.UserService
 import code.model.Need
 import code.model.PostImage
 import net.liftweb.http.{SHtml, S, FileParamHolder}
@@ -45,8 +46,20 @@ class AddPost {
       //        S.redirectTo("/admin/users/login")
       //      }
 
-      //TODO: Add the user id to the Need
-      Need.create.title(postTitle).description(postDescription).intention(postIntention).postedAt(timeNow).save()
+      var userId: Long = 0
+      var redirectLink = ""
+      if (UserService.isUserLoggedIn.isDefined) {
+        redirectLink = "/admin/post/created"
+        userId = UserService.isUserLoggedIn.openTheBox
+
+      } else {
+        //generate new Username
+        userId = UserService.createNewAdminLink
+        UserService.setUserIdSessionState(userId)
+        redirectLink = "/login"
+      }
+
+      Need.create.title(postTitle).description(postDescription).intention(postIntention).postedAt(timeNow).userID(userId).save()
 
       //Saving the image
       if (!fileHolder.isEmpty) {
@@ -75,6 +88,8 @@ class AddPost {
       println(Need.findAll())
       println(PostImage.findAll())
       println("processCreastePost")*/
+
+      S.redirectTo(redirectLink)
 
     }
 

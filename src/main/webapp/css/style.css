@@ -456,7 +456,7 @@ tr.odd {
 }
 
 #crudListTable {
-    margin: 10px 0;
+    margin: 10px 10;
 }
 
 .crudField, .objectForm {

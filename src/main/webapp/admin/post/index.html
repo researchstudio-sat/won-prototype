@@ -1,0 +1,32 @@
+<div id="crud" class="lift:surround?with=default;at=content">
+	<div id="crudContent"> 
+		<div id="crudList" class="Posts">
+			<h2 id="crudListTitle">List of Posts</h2>
+			<div id="crudListTable">
+				<table> 
+					<thead> 
+						<tr>
+                            <th>Id</th>
+							<th>Title</th>
+						</tr> 
+					</thead>
+					<tbody id="posts" class="lift:Posts.list">
+					<tr class="post_item">
+                        <td>
+                            <span>@id</span>
+                        </td>
+					  	<td>
+						   <a href="/admin/post/#">@title</a>
+						</td> 
+				  	</tr> 
+					</tbody>
+				</table>
+			</div> 
+    		<!--div id="crudListPagination" style="border:0px;">
+				<p class="crudCount"> 
+					<span class="lift:Users.count">number of</span> Users
+				</p> 
+ 			</div-->
+		</div>
+	</div>  
+</div>

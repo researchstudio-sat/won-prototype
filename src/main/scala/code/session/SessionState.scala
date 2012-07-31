@@ -13,9 +13,11 @@ import net.liftweb.http.SessionVar
 
 object SessionState {
 
-   object loggedInUserName extends SessionVar[Box[String]](Empty)
+  object loggedInUserName extends SessionVar[Box[String]](Empty)
 
-  def isLoggedIn(): Boolean = {return (loggedInUserName.get != Empty)}
+  def isLoggedIn(): Boolean = {
+    return (loggedInUserName.is != Empty)
+  }
 
   def loginWithNewUserName(): String = {
     //ToDo: implement
@@ -23,6 +25,5 @@ object SessionState {
     loggedInUserName.set(Box(userName))
     return (userName)
   }
-
 }
 

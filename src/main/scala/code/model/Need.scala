@@ -48,10 +48,7 @@ def last:Node = {
     }
   }*/
 
-  object userID extends MappedString(this, 99999) {
-    override def validations = {
-      valMinLen(1, "Please input the userID.") _ :: Nil
-    }
+  object userID extends MappedLong(this) {
   }
 
   object intention extends MappedString(this, 140) {

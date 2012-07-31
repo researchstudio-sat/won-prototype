@@ -38,7 +38,7 @@ object User extends User with MetaMegaProtoUser[User] {
 
   // define the order fields will appear in forms and output
   override def fieldOrder = List(id, firstName, lastName, email,
-  locale, timezone, password, textArea)
+  locale, timezone, password)
 
   // offer this line out to require email$$ validations
   override def skipEmailValidation = true 
@@ -51,16 +51,19 @@ class User extends MegaProtoUser[User] {
   def getSingleton = User // what's the "meta" server
 
   // define an additional field for a personal essay
-  object textArea extends MappedTextarea(this, 2048) {
-    override def textareaRows  = 10
-    override def textareaCols = 50
-    override def displayName = "Personal Essay"
-  }
+//  object textArea extends MappedTextarea(this, 2048) {
+//    override def textareaRows  = 10
+//    override def textareaCols = 50
+//    override def displayName = "Personal Essay"
+//  }
   
   //Demo users can not be deleted and modified
   object isDemo extends MappedBoolean(this) {
     override def defaultValue=false
   }
+
+  object adminLink extends MappedString(this, 1024) {}
+
 
   def hasNeeds():Boolean = {
     val postCount = 0// Need1.count(By(Need1.author, this.id.get))
