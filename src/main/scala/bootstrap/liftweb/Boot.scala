@@ -77,6 +77,7 @@ class Boot {
         Menu.i("Create Post") / "admin" / "post" / "add",
         Menu.i("Post Created") / "admin" / "post" / "created",
         Menu.i("Relation") / "relation",
+        Menu.i("Post List") / "admin" / "post" / "index",
 
         // pages for the user management and login
         Menu.i("User Login") / "login" / "index",

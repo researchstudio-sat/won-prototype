@@ -46,16 +46,20 @@ class AddPost {
       //        S.redirectTo("/admin/users/login")
       //      }
 
-      if (UserService.isUserLoggedIn.isDefined)
-        S.redirectTo("/admin/post/created")
-      else {
-        //generate new Username
-        val userId = UserService.createNewAdminLink
-        UserService.setUserIdSessionState(userId)
-        S.redirectTo("/login")
+      var userId: Long = 0
+      var redirectLink = ""
+      if (UserService.isUserLoggedIn.isDefined) {
+        redirectLink = "/admin/post/created"
+        userId = UserService.isUserLoggedIn.openTheBox
 
-      //TODO: Add the user id to the Need
-      Need.create.title(postTitle).description(postDescription).intention(postIntention).postedAt(timeNow).save()
+      } else {
+        //generate new Username
+        userId = UserService.createNewAdminLink
+        UserService.setUserIdSessionState(userId)
+        redirectLink = "/login"
+      }
+
+      Need.create.title(postTitle).description(postDescription).intention(postIntention).postedAt(timeNow).userID(userId).save()
 
       //Saving the image
       if (!fileHolder.isEmpty) {
@@ -84,6 +88,8 @@ class AddPost {
       println(Need.findAll())
       println(PostImage.findAll())
       println("processCreastePost")*/
+
+      S.redirectTo(redirectLink)
 
     }
 
