@@ -304,6 +304,7 @@ form .removeAttachment {
 
 #crudListPagination .crudCount {
 	margin: 0;
+    color: #ccc
 }
 
 #crudListPagination .crudPages {

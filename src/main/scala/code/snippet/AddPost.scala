@@ -7,6 +7,7 @@ import net.liftweb.sitemap.Loc.Snippet
 import net.liftweb.common.{Full, Box, Empty}
 import java.awt.Color
 import code.session.SessionState
+import code.service.UserService
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,18 +33,19 @@ class AddPost {
 
       // ToDo: process form values
 
-      if (SessionState.isLoggedIn())
+      if (UserService.isUserLoggedIn.isDefined)
         S.redirectTo("/admin/post/created")
       else {
         //generate new Username
-        SessionState.loginWithNewUserName()
-        S.redirectTo("/admin/users/login")
+        val userId = UserService.createNewAdminLink
+        UserService.setUserIdSessionState(userId)
+        S.redirectTo("/login")
       }
 
     }
 
     bind("e", in,
-      "post_type" -> SHtml.radio(radioItemNames, Empty, (a:String) => postType = a).toForm,
+      "post_type" -> SHtml.radio(radioItemNames, Empty, (a: String) => postType = a).toForm,
       "post_title" -> SHtml.text(postTitle, postTitle = _),
       "description" -> SHtml.textarea(description, description = _,
         "cols" -> "80", "rows" -> "8"),
@@ -51,7 +53,6 @@ class AddPost {
       "submit_post" -> SHtml.submit("Create post", () => processCreatePost)
     )
   }
-
 
 
   var fileHolder: Box[FileParamHolder] = Empty
@@ -68,7 +69,6 @@ class AddPost {
       "submit_picture" -> SHtml.submit("Upload picture", () => processUploadPicture)
     )
   }
-
 
 
 }
