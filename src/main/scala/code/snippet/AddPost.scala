@@ -4,6 +4,7 @@ import xml.NodeSeq
 import net.liftweb.util.Helpers._
 import net.liftweb.common.{Box, Full, Empty}
 import code.session.SessionState
+import code.service.UserService
 import code.model.Need
 import code.model.PostImage
 import net.liftweb.http.{SHtml, S, FileParamHolder}
@@ -44,6 +45,14 @@ class AddPost {
       //        SessionState.loginWithNewUserName()
       //        S.redirectTo("/admin/users/login")
       //      }
+
+      if (UserService.isUserLoggedIn.isDefined)
+        S.redirectTo("/admin/post/created")
+      else {
+        //generate new Username
+        val userId = UserService.createNewAdminLink
+        UserService.setUserIdSessionState(userId)
+        S.redirectTo("/login")
 
       //TODO: Add the user id to the Need
       Need.create.title(postTitle).description(postDescription).intention(postIntention).postedAt(timeNow).save()

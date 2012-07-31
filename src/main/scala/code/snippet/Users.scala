@@ -19,13 +19,13 @@ class Users {
   def list: CssSel = {
     val users = getUsers()
     var odd = "even"
-    "#users" #> users.map {
-      u =>
-        odd = YabeHelper.oddOrEven(odd);
-        ".user_item" #> bindModel(u, {"tr [class]" #> odd}) _
+    val x = users.map {
+          u =>
+            odd = YabeHelper.oddOrEven(odd);
+            ".user_item" #> bindModel(u, {"tr [class]" #> odd}) _
+        }
+    "#users" #> x
 
-
-    }
   }
 
   def search: CssSel = {
@@ -74,9 +74,9 @@ class Users {
   private def getUsers() = {
     val users = validSearch() match {
       case x if x == true => User.findAll(Like(User.email, "%" + searchStr.is + "%"),
-        OrderBy(User.email, Ascending))
+        OrderBy(User.id, Ascending))
 
-      case _ => User.findAll(OrderBy(User.email, Ascending))
+      case _ => User.findAll(OrderBy(User.id, Ascending))
     }
 
     getUserOrder match {

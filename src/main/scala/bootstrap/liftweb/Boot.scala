@@ -1,6 +1,7 @@
 package bootstrap.liftweb
 
 import net.liftweb._
+import common.{Empty, Full, EmptyBox, Box}
 import util._
 import http._
 import sitemap._
@@ -8,6 +9,8 @@ import Loc._
 import mapper._
 import code.model._
 import code.lib._
+import xml.{Text, NodeSeq}
+import code.snippet.LoginMenu
 
 
 /**
@@ -48,36 +51,40 @@ class Boot {
     val IfAdminTokenCorrect = If(() => S.param("token").isDefined && S.param("token").openTheBox.toString.equals(YabeHelper.generateAdminHash(S.param("id").openTheBox.toLong)),
       () => RedirectResponse("/"))
 
-    def menus = List(
-      Menu.i("Sandbox") / "sandbox" / "index",
-      Menu.i("Home") / "index",
-      Menu.i("imprint") / "imprint",
-      Menu.i("contact") / "contact",
-      Menu.i("privacy") / "privacy",
-      Menu.i("terms") / "terms",
-      Menu.i("features") / "features",
-      Menu.i("about") / "about",
-      Menu.i("activities") / "activities",
 
-      Menu.i("Read") / "read" / ** >> IfTokenCorrect,
-      Menu.i("Success") / "success" / ** >> IfAdminTokenCorrect,
-      Menu.i("Administration") / "administration" / ** >> IfAdminTokenCorrect,
-     // Menu.i("My Needs") / "admin" / "needs" / ** //,
-      Menu.i("ALL") / "admin" / **,
-      Menu.i("Post created") / "admin" / "post" / "created",
-      Menu.i("User Login") / "admin" / "users" / "login"
+    def menus =
 
-     // Menu.i("Needs by tag") / "Needs",
-     // Menu.i("Test") / "test",
-      //Can be accessed by both users and admins
-     // Menu.i("My posts") / "admin" / "posts" / **,
+    // login menu
+      LoginMenu.getMenu :: List(
 
-      //Can be accessed by admins
-     // Menu.i("Needs") / "admin" / "all_posts" / ** >> IfAdminLoggedIn >> LocGroup("admin"),
-      //Menu.i("Tags") / "admin" / "tags" / ** >> IfAdminLoggedIn >> LocGroup("admin"),
-     // Menu.i("Offers") / "admin" / "offers" / ** >> IfAdminLoggedIn >> LocGroup("admin"),
-     // Menu.i("Users") / "admin" / "users" / ** >>  IfAdminLoggedIn >> LocGroup("admin")
-    )
+        // top menu
+        Menu.i("Home") / "index",
+        Menu.i("Activities") / "activities",
+
+        // bottom menu
+        Menu.i("Imprint") / "imprint",
+        Menu.i("Contact") / "contact",
+        Menu.i("Privacy") / "privacy",
+        Menu.i("Terms") / "terms",
+        Menu.i("Features") / "features",
+        Menu.i("About") / "about",
+
+        // administration
+        Menu.i("User List") / "admin" / "users" / "index",
+
+
+        // posts
+        Menu.i("Create Post") / "admin" / "post" / "add",
+        Menu.i("Post Created") / "admin" / "post" / "created",
+        Menu.i("Relation") / "relation",
+
+        // pages for the user management and login
+        Menu.i("User Login") / "login" / "index",
+        Menu.i("User Login Success") / "login" / "success",
+        Menu.i("User Login Fail") / "login" / "fail",
+        Menu.i("User Logout") / "logout"
+
+      )
 
     // Build SiteMap
     def sitemap = SiteMap(
