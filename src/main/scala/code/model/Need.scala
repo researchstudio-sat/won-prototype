@@ -2,10 +2,11 @@ package code.model
 
 import net.liftweb.mapper._
 import net.liftweb.util._
-import net.liftweb.common.{Box, Empty, Full}
+import net.liftweb.common.{Empty, Box, Full}
 import code.lib.YabeHelper
 import xml.{Unparsed, Text, Node}
 import net.liftweb.textile.TextileParser
+import net.liftweb.http.{RequestVar, FileParamHolder}
 
 
 class Need extends LongKeyedMapper[Need] with IdPK {
@@ -41,21 +42,35 @@ def last:Node = {
 }
 }    */
 
+  /*    object postType extends MappedString(this, 140) {
+    override def validations = {
+      valMinLen(1, "Please input type.") _ :: Nil
+    }
+  }*/
+
+  object userID extends MappedString(this, 99999) {
+    override def validations = {
+      valMinLen(1, "Please input the userID.") _ :: Nil
+    }
+  }
+
+  object intention extends MappedString(this, 140) {
+    override def validations = {
+      valMinLen(1, "Please input intention.") _ :: Nil
+    }
+  }
+
   object title extends MappedString(this, 140) {
     override def validations = {
       valMinLen(1, "Please input title.") _ :: Nil
     }
   }
 
-  object email extends MappedEmail(this, 500) {
-
-  }
-
-  object content extends MappedTextarea(this, 1000) {
+  object description extends MappedTextarea(this, 1000) {
     override def validations = {
       def notNull(txt: String) = {
         if (txt == "")
-          List(FieldError(this, "Please input content."))
+          List(FieldError(this, "Please input description$."))
         else
           List[FieldError]()
       }
