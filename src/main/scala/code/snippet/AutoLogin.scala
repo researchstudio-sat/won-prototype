@@ -1,13 +1,12 @@
 package code.snippet
 
-import scala.xml.{ NodeSeq, Text}
 import net.liftweb.util._
-import net.liftweb.common._
 import net.liftweb.http._
 import net.liftweb.mapper._
 import code.model._
 import Helpers._
 
+// Default autologin template which is not used at the moment.
 class AutoLogin {	
   def superUser:CssSel = {
 	def process() = {

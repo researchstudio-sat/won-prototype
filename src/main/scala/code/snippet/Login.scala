@@ -1,14 +1,13 @@
 package code.snippet
 
-import xml.{XML, NodeSeq}
+import xml.NodeSeq
 import net.liftweb.util.Helpers._
-import net.liftweb.http.{RedirectResponse, S, Templates, SHtml}
-import net.liftweb.common.{Full, Empty}
-import net.liftweb.sitemap.{Loc, **, Menu, MenuSingleton}
-import net.liftweb.sitemap.Loc.{If, Test, Template}
-import net.liftweb.sitemap.Menu.ParamMenuable
+import net.liftweb.http.{RedirectResponse, SHtml}
+import net.liftweb.common.Full
+import net.liftweb.sitemap.{**, Menu}
+import net.liftweb.sitemap.Loc.If
 import code.service.UserService
-import net.liftweb.util.{CssSel, CssSelector}
+import net.liftweb.util.CssSel
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,8 +17,11 @@ import net.liftweb.util.{CssSel, CssSelector}
  * To change this template use File | Settings | File Templates.
  */
 
-class Login {
 
+/**
+ * Provides snippets for User login and logout.
+ */
+class Login {
   def anonLogin(in: NodeSeq): NodeSeq = {
 
     val adminURL = "/login/key/" +UserService.getAdminKeyForLoggedInUser.openOr("N/A");
@@ -39,6 +41,10 @@ class Login {
   }
 }
 
+/**
+ * This object provides the methods to create the Admin Key URL menu and methods to validate the
+ * admin key if the according URL is requested.
+ */
 object LoginMenu {
 
   private var adminKey: String = ""

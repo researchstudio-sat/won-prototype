@@ -2,6 +2,9 @@ package code.model
 
 import net.liftweb.mapper._
 
+
+// for future tag support
+
 class PostTag extends LongKeyedMapper[PostTag] with IdPK {
   def getSingleton = PostTag
   object post extends MappedLongForeignKey(this, Post)

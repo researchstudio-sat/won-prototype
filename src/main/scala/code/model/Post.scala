@@ -69,6 +69,7 @@ class Post extends LongKeyedMapper[Post] with IdPK {
     }
   }
 
+  // for future tag support
   object tags extends HasManyThrough(this, Post, PostTag, PostTag.tag, PostTag.post) {
     def setMultiple(post: Post, tags: String) {
       //delete old tag relation

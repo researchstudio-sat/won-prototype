@@ -5,6 +5,8 @@ import net.liftweb.util.FieldError
 import net.liftweb.common.{Empty, Full}
 
 
+// for future tag support
+
 class Tag extends LongKeyedMapper[Tag] with IdPK {
   def getSingleton = Tag
 

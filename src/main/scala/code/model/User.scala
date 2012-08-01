@@ -62,6 +62,7 @@ class User extends MegaProtoUser[User] {
     override def defaultValue=false
   }
 
+  // admin link with which a user can
   object adminLink extends MappedString(this, 1024) {}
 
 

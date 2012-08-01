@@ -45,14 +45,14 @@ class Boot {
 
     def menus =
 
-    // login menu
+    // creates the menu for the login with an admin key
       LoginMenu.getMenu :: List(
 
-        // top menu
+        // menu at the top bar
         Menu.i("Home") / "index",
         Menu.i("Activities") / "activities",
 
-        // bottom menu
+        // menu at the bottom bar
         Menu.i("Imprint") / "imprint",
         Menu.i("Contact") / "contact",
         Menu.i("Privacy") / "privacy",
@@ -62,7 +62,6 @@ class Boot {
 
         // administration
         Menu.i("User List") / "admin" / "users" / "index",
-
 
         // posts
         Menu.i("Create Post") / "admin" / "post" / "add",

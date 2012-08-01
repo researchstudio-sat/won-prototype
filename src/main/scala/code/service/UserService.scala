@@ -14,19 +14,18 @@ import util.Random
  * To change this template use File | Settings | File Templates.
  */
 
+// The UserService object provides methods for the Login/Logout mechanism and the admin key administration.
+
 object UserService {
 
   private object loggedInUser extends SessionVar[Box[Long]](Empty)
 
-  /* returns the user id of the admin link or Empty */
+  /**
+   * Checks if a given admin link is valid an returns the associated userId
+   * @param link the administration link
+   * @return a Box with the userId
+   */
   def validateAdminLink(link: String): Box[Long] = {
-    // ToDo: implement
-    //    link match {
-    //      case "aa" => Full(11)
-    //      case "bb" => Full(22)
-    //      case "cc" => Full(33)
-    //      case _ => Empty
-    //    }
 
     val filteredPosts: List[User] = User.findAll(Like(User.adminLink, link))
     filteredPosts.length match {
@@ -36,14 +35,11 @@ object UserService {
     }
   }
 
-  /* creates a new admin link and a new user to the admin link; returns the userId of the
-   * newly created user
+  /**
+   * Creates a new admin link and a new user to the admin link
+   * @return the userId of the newly created user
    */
   def createNewAdminLink: Long = {
-    // ToDo: implement
-    // generate new link
-    //    val newLink = "aa"
-    //    return newLink
 
     val key = uniqueRandomKey(6)
     val user = User.create
@@ -53,22 +49,38 @@ object UserService {
     return user.id.get
   }
 
-  /* returns the userId of the logged in user or Empty */
+  /**
+   * returns the userId of the logged in user or Empty if no user is logged in
+   * @return Box with the userId
+   */
   def isUserLoggedIn: Box[Long] = {
-    // ToDo: implement
     loggedInUser.is
   }
 
+  /**
+   * Saves the given userId in a session variable as logged in.
+   * @param userId userId of the logged in user
+   */
   def setUserIdSessionState(userId: Long) = {
     loggedInUser.set(Box(userId))
   }
 
+  /**
+   * Makes a logout of the current user.
+   */
   def logout = {
     loggedInUser.set(Empty)
   }
 
-
+  /**
+   * Generates a random key of a given length containing the characters a-z, A-Z and 0-9.
+   * The method ensures that the generated key is not already used as admin url for a user.
+   * @param length length of the key to generate
+   * @return the generated key
+   */
   def uniqueRandomKey(length: Int): String = {
+
+    // this method checks if the given key is already used as admin key url
     def isUnique(s: String): Boolean = {
       val filteredPosts: List[User] = User.findAll(Like(User.adminLink, s))
       if (filteredPosts.length > 0)
@@ -90,6 +102,10 @@ object UserService {
       uniqueRandomKey(length)
   }
 
+  /**
+   * If a user is logged in this method returns the admin key for this user.
+   * @return Box with the admin key or Empty if no user is logged in.
+   */
   def getAdminKeyForLoggedInUser: Box[String] = {
     if (isUserLoggedIn.isDefined) {
       val users: List[User] = User.findAll(By(User.id, isUserLoggedIn.openTheBox))

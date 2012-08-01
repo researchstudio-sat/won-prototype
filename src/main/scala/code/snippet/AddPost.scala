@@ -18,31 +18,30 @@ import code.wonConfiguration
  * To change this template use File | Settings | File Templates.
  */
 
+
+/**
+ * In this class the form elements of the add post site are created. Also the submit request is handled
+ * in this class. This includes the check for an logged in user, writing the post into the DB and storing
+ * the associated picture in the file system.
+ */
 class AddPost {
+
 
   def submitForm(in: NodeSeq): NodeSeq = {
 
-    //    var pType: String = ""
+    // The associated variables to the form elements with the initial values.
     var postIntention: String = ""
     var postTitle = "Title..."
     var postDescription = "Description..."
 
     val intentionRadioItemNames: Seq[String] = Seq("Give", "Take", "Do")
 
-    // Add a variable to hold the FileParamHolder on submission
+    // Here the uploaded file an additional information is stored after submitting the form.
     var fileHolder: Box[FileParamHolder] = Empty
 
     def processCreatePost {
 
-      //TODO: Get the user id: The below commented lines
-      //      if (SessionState.isLoggedIn())
-      //        S.redirectTo("/admin/post/created")
-      //      else {
-      //        //generate new Username
-      //        SessionState.loginWithNewUserName()
-      //        S.redirectTo("/admin/users/login")
-      //      }
-
+      // Check if a user is logged in or create a new user and redirect to the according sites.
       var userId: Long = 0
       var redirectLink = ""
       if (UserService.isUserLoggedIn.isDefined) {
@@ -50,15 +49,16 @@ class AddPost {
         userId = UserService.isUserLoggedIn.openTheBox
 
       } else {
-        //generate new Username
+        // Create a new user.
         userId = UserService.createNewAdminLink
         UserService.setUserIdSessionState(userId)
         redirectLink = "/login"
       }
 
+      // Create and save the new post.
       Post.create.title(postTitle).description(postDescription).intention(postIntention).postedAt(timeNow).userID(userId).save()
 
-      //Saving the image
+      // Save the image into the file system
       if (!fileHolder.isEmpty) {
         if (fileHolder.map(_.mimeType).openTheBox.startsWith("image/") && fileHolder.map(_.file).openTheBox.length > 0) {
           //TODO: If possible just replace the findAll with find with the last id, to improve the performance!
@@ -87,11 +87,9 @@ class AddPost {
       println("processCreastePost")*/
 
       S.redirectTo(redirectLink)
-
     }
 
     bind("e", in,
-      //      "post_type" -> SHtml.radio(typeRadioItemNames, Empty, (a: String) => pType = a).toForm,
       "post_intention" -> SHtml.radio(intentionRadioItemNames, Empty, (a: String) => postIntention = a).toForm,
       "post_title" -> SHtml.text(postTitle, postTitle = _),
       "description" -> SHtml.textarea(postDescription, postDescription = _,
@@ -100,6 +98,4 @@ class AddPost {
       "submit_post" -> SHtml.submit("Create post", () => processCreatePost)
     )
   }
-
-
 }

@@ -8,6 +8,8 @@ package code
  * To change this template use File | Settings | File Templates.
  */
 
-object  wonConfiguration {
-     val imagesPath: String = "C:\\DATA\\fsalcher\\_workspace\\projects\\2011-12 - Web of Needs\\pics"
+object wonConfiguration {
+
+  // The path where the pictures of the post will be stored.
+  val imagesPath: String = "C:\\DATA\\fsalcher\\_workspace\\projects\\2011-12 - Web of Needs\\pics"
 }
