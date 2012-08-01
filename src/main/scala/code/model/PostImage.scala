@@ -11,9 +11,9 @@ import net.liftweb.mapper._
 class PostImage extends LongKeyedMapper[PostImage] with IdPK {
   def getSingleton = PostImage
 
-  object needID extends MappedString(this, 999) {
+  object postID extends MappedString(this, 999) {
     override def validations = {
-      valMinLen(1, "Please input the needID.") _ :: Nil
+      valMinLen(1, "Please input the postID.") _ :: Nil
     }
   }
 }

@@ -9,44 +9,8 @@ import net.liftweb.textile.TextileParser
 import net.liftweb.http.{RequestVar, FileParamHolder}
 
 
-class Need extends LongKeyedMapper[Need] with IdPK {
-  def getSingleton = Need
-
-  /*
-object author extends MappedLongForeignKey(this, User) {
-override def validSelectValues = {
-  val users = User.findAll().map( (x:User) => (x.id.get, x.email.get) )
-  val list = (0.toLong, "(Please select a user)") :: users
-  Full(list)
-}
-
-override def validations = {
-  def needAuthor(author: Long) = {
-    if (author == 0) List(FieldError(this, "Please select a user."))
-    else List[FieldError]()
-  }
-
-  needAuthor _ :: Nil
-}
-
-def getAuthor = {
-  User.find(By(User.id, author.get)).openTheBox
-}
-
-def first:Node = {
-  Text(getAuthor.firstName.get)
-}
-
-def last:Node = {
-  Text(getAuthor.lastName.get)
-}
-}    */
-
-  /*    object postType extends MappedString(this, 140) {
-    override def validations = {
-      valMinLen(1, "Please input type.") _ :: Nil
-    }
-  }*/
+class Post extends LongKeyedMapper[Post] with IdPK {
+  def getSingleton = Post
 
   object userID extends MappedLong(this) {
   }
@@ -105,24 +69,24 @@ def last:Node = {
     }
   }
 
-  object tags extends HasManyThrough(this, Need, NeedTag, NeedTag.tag, NeedTag.post) {
-    def setMultiple(post: Need, tags: String) {
+  object tags extends HasManyThrough(this, Post, PostTag, PostTag.tag, PostTag.post) {
+    def setMultiple(post: Post, tags: String) {
       //delete old tag relation
-      NeedTag.findAll(By(NeedTag.post, post.id)).foreach(_.delete_!)
+      PostTag.findAll(By(PostTag.post, post.id)).foreach(_.delete_!)
 
       //set new tag relation
-      Tag.createAndGetTags(splitTags(tags)).distinct.foreach(NeedTag.join(post, _))
+      Tag.createAndGetTags(splitTags(tags)).distinct.foreach(PostTag.join(post, _))
     }
 
     //Format tags as "tag1 tag2 tag3.."
     def concat: String = {
-      val postTags = NeedTag
-        .findAll(By(NeedTag.post, Need.this.id))
+      val postTags = PostTag
+        .findAll(By(PostTag.post, Post.this.id))
 
       postTags match {
         case Nil => ""
         case _ => postTags
-          .map((pt: NeedTag) => Tag.getName(pt.tag.get))
+          .map((pt: PostTag) => Tag.getName(pt.tag.get))
           .reduceLeft(_ + " " + _)
       }
     }
@@ -132,36 +96,10 @@ def last:Node = {
     }
   }
 
-  //delete its offers first
-  override def delete_!(): Boolean = {
-    val offers = Offer.findAll(By(Offer.post, this.id.get))
-    offers.foreach(_.delete_!)
-
-    super.delete_!
-  }
-
-  def countOffers: Long = {
-    Offer.count(By(Offer.post, this.id))
-  }
-
-  def latestOfferAuthor: String = {
-    if (countOffers <= 0)
-      ""
-    else {
-      val latest = Offer.find(By(Offer.post, this.id),
-        OrderBy(Offer.postedAt, Descending)).openTheBox
-
-      latest.author match {
-        case author if (author.length > 0) => ", lastest by " + latest.author
-        case _ => ", lastest by guest"
-      }
-    }
-  }
-
   def showTagMetaStr: String = {
-    val postTags = NeedTag.findAll(By(NeedTag.post, this.id))
+    val postTags = PostTag.findAll(By(PostTag.post, this.id))
     val tagNames = postTags.map {
-      (pt: NeedTag) =>
+      (pt: PostTag) =>
         val tag = Tag.find(By(Tag.id, pt.tag)).openTheBox
         "<a href='/posts/" + tag.name.get + "'>" + tag.name.get + "</a>"
     }
@@ -172,16 +110,16 @@ def last:Node = {
   }
 }
 
-object Need extends Need with LongKeyedMetaMapper[Need] with CRUDify[Long, Need] {
-  def getNeedsByTag(tag: String) = {
+object Post extends Post with LongKeyedMetaMapper[Post] with CRUDify[Long, Post] {
+  def getPostsByTag(tag: String) = {
     val tagId = Tag.find(By(Tag.name, tag)) match {
       case Full(t) => t.id.get
       case _ => -1
     }
 
     val posts =
-      Need.findAll(In(Need.id, NeedTag.post, By(NeedTag.tag, tagId)),
-        OrderBy(Need.id, Descending))
+      Post.findAll(In(Post.id, PostTag.post, By(PostTag.tag, tagId)),
+        OrderBy(Post.id, Descending))
 
     posts
   }

@@ -39,7 +39,7 @@ class Users {
     def process() = {
       if (user.isDemo.get == true) {
         S.error("demo_user_error", "Demo users can not be deleted")
-      } else if (user.hasNeeds == true) {
+      } else if (user.hasPosts == true) {
         S.error("has_posts", "You need to delete this user's posts first")
       } else {
         user.delete_!

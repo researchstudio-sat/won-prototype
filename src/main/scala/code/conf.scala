@@ -9,5 +9,5 @@ package code
  */
 
 object  wonConfiguration {
-     val imagesPath: String = "C:\\DATA\\soheilk\\Projects\\won"
+     val imagesPath: String = "C:\\DATA\\fsalcher\\_workspace\\projects\\2011-12 - Web of Needs\\pics"
 }

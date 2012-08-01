@@ -4,7 +4,6 @@ import xml.{XML, NodeSeq}
 import net.liftweb.util.Helpers._
 import net.liftweb.http.{RedirectResponse, S, Templates, SHtml}
 import net.liftweb.common.{Full, Empty}
-import code.session.SessionState
 import net.liftweb.sitemap.{Loc, **, Menu, MenuSingleton}
 import net.liftweb.sitemap.Loc.{If, Test, Template}
 import net.liftweb.sitemap.Menu.ParamMenuable

@@ -65,8 +65,8 @@ class User extends MegaProtoUser[User] {
   object adminLink extends MappedString(this, 1024) {}
 
 
-  def hasNeeds():Boolean = {
-    val postCount = 0// Need1.count(By(Need1.author, this.id.get))
+  def hasPosts():Boolean = {
+    val postCount = 0
     postCount match {
       case 0 => false
       case _ => true

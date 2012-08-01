@@ -3,10 +3,8 @@ package code.snippet
 import xml.NodeSeq
 import net.liftweb.util.Helpers._
 import net.liftweb.common.{Box, Full, Empty}
-import code.session.SessionState
 import code.service.UserService
-import code.model.Need
-import code.model.PostImage
+import code.model.{Post, PostImage}
 import net.liftweb.http.{SHtml, S, FileParamHolder}
 import java.io.FileOutputStream
 import java.io.File
@@ -29,7 +27,6 @@ class AddPost {
     var postTitle = "Title..."
     var postDescription = "Description..."
 
-    //    val typeRadioItemNames: Seq[String] = Seq("Need", "Offer")
     val intentionRadioItemNames: Seq[String] = Seq("Give", "Take", "Do")
 
     // Add a variable to hold the FileParamHolder on submission
@@ -59,13 +56,13 @@ class AddPost {
         redirectLink = "/login"
       }
 
-      Need.create.title(postTitle).description(postDescription).intention(postIntention).postedAt(timeNow).userID(userId).save()
+      Post.create.title(postTitle).description(postDescription).intention(postIntention).postedAt(timeNow).userID(userId).save()
 
       //Saving the image
       if (!fileHolder.isEmpty) {
         if (fileHolder.map(_.mimeType).openTheBox.startsWith("image/") && fileHolder.map(_.file).openTheBox.length > 0) {
           //TODO: If possible just replace the findAll with find with the last id, to improve the performance!
-          PostImage.create.needID(Need.findAll()(Need.findAll().size - 1).id.toString()).save() //get the id of the last need
+          PostImage.create.postID(Post.findAll()(Post.findAll().size - 1).id.toString()).save() //get the id of the last need
           val filePath = wonConfiguration.imagesPath
           val imageTypeArray = fileHolder.map(_.fileName).openTheBox.split('.')
           val oFile = new File(filePath, PostImage.findAll()(PostImage.findAll().size - 1).id.toString() + "." + imageTypeArray(imageTypeArray.length - 1)) //get the id of the last image

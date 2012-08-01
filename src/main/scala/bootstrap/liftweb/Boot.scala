@@ -36,20 +36,11 @@ class Boot {
     // Use Lift's Mapper ORM to populate the database
     // you don't need to use Mapper to use Lift... use
     // any ORM you want
-    Schemifier.schemify(true, Schemifier.infoF _, User, Need, Offer, Tag, NeedTag, PostImage)
+    Schemifier.schemify(true, Schemifier.infoF _, User, Post, Tag, PostTag, PostImage)
 
     // where to search snippet
     LiftRules.addToPackages("code")
     LiftRules.addToPackages("code/snippet")
-
-    val IfUserLoggedIn = If(() => User.loggedIn_?,
-      () => RedirectResponse("/login"))
-    val IfAdminLoggedIn = If(() => User.loggedIn_? && User.superUser_?,
-      () => RedirectResponse("/admin/needs/index"))
-    val IfTokenCorrect = If(() => S.param("token").isDefined && S.param("token").openTheBox.toString.equals(YabeHelper.generateHash(S.param("id").openTheBox.toLong)),
-      () => RedirectResponse("/"))
-    val IfAdminTokenCorrect = If(() => S.param("token").isDefined && S.param("token").openTheBox.toString.equals(YabeHelper.generateAdminHash(S.param("id").openTheBox.toLong)),
-      () => RedirectResponse("/"))
 
 
     def menus =
@@ -99,49 +90,16 @@ class Boot {
     LiftRules.setSiteMapFunc(() => sitemapMutators(sitemap))
 
     //Rewrite
+    /*
     LiftRules.statelessRewrite.append {
-      //Login and logout
-      //case RewriteRequest(ParsePath("login" :: Nil, _, _, _), _, _) =>
-      //  RewriteResponse("user_mgt" :: "login" :: Nil)
-      //case RewriteRequest(ParsePath("logout" :: Nil, _, _, _), _, _) =>
-      //  RewriteResponse("user_mgt" :: "logout" :: Nil)
 
-      //Edit users
-      //case RewriteRequest(ParsePath("admin" :: "users" :: "edit" :: id :: Nil, _, _, _), _, _) =>
-      //  RewriteResponse("admin" :: "users" :: "edit" :: Nil, Map("id" -> id))
-
-      //Edit posts
-      //case RewriteRequest(ParsePath("admin" :: "posts" :: "edit" :: id :: Nil, _, _, _), _, _) =>
-      //        RewriteResponse("admin" :: "posts" :: "edit" :: Nil, Map("id" -> id))
-
-
-      //case RewriteRequest(ParsePath("admin" :: "all_posts" :: "edit" :: id :: Nil, _, _, _), _, _) =>
-      //  RewriteResponse("admin" :: "all_posts" :: "edit" :: Nil, Map("id" -> id))
-
-      //edit offer
-      //case RewriteRequest(ParsePath("admin" :: "offers" :: "edit" :: id :: Nil, _, _, _), _, _) =>
-      //   RewriteResponse("admin" :: "offers" :: "edit" :: Nil, Map("id" -> id))
-
-      //edit tag
-      //case RewriteRequest(ParsePath("admin" :: "tags" :: "edit" :: id :: Nil, _, _, _), _, _) =>
-      //  RewriteResponse("admin" :: "tags" :: "edit" :: Nil, Map("id" -> id))
-
-
-      //list posts by tag
-      //case RewriteRequest(ParsePath("posts" :: tag :: Nil, _, _, _), _, _) =>
-      //  RewriteResponse("posts" :: Nil, Map("tag" -> tag))
-
-      case RewriteRequest(ParsePath("administration" :: id :: token :: Nil, _, _, _), _, _) =>
-        RewriteResponse("admin" :: "needs" :: "edit" :: Nil, Map("id" -> id, "token" -> token))
-
-      //read post
-      case RewriteRequest(ParsePath("read" :: id :: token :: Nil, _, _, _), _, _) =>
-        RewriteResponse("read" :: Nil, Map("id" -> id, "token" -> token))
 
       //successfully created Need1
       case RewriteRequest(ParsePath("success" :: id :: token :: Nil, _, _, _), _, _) =>
         RewriteResponse("success" :: Nil, Map("id" -> id, "token" -> token))
+
     }
+    */
 
 
     //Create Demo Users

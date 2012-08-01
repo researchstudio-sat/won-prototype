@@ -7,7 +7,6 @@ import net.liftweb.util._
 import net.liftweb.util.Helpers._
 import code.lib.YabeHelper
 import code.model.Tag
-import code.model.Need.tags
 
 class Tags {
   private object searchStr extends RequestVar("")

@@ -30,11 +30,11 @@ class Tag extends LongKeyedMapper[Tag] with IdPK {
     }
   }
 
-  object posts extends HasManyThrough(this, Need, NeedTag, NeedTag.post, NeedTag.tag)
+  object posts extends HasManyThrough(this, Post, PostTag, PostTag.post, PostTag.tag)
 
   //delete its offers first
   override def delete_!(): Boolean = {
-    val postTags = NeedTag.findAll(By(NeedTag.tag, this.id.get))
+    val postTags = PostTag.findAll(By(PostTag.tag, this.id.get))
     postTags.foreach(_.delete_!)
 
     super.delete_!
