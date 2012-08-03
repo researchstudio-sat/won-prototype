@@ -12,6 +12,7 @@ class PostImage extends LongKeyedMapper[PostImage] with IdPK {
   def getSingleton = PostImage
 
   // each image belongs to a post with this ID
+  // ToDo: change to Long
   object postID extends MappedString(this, 999) {
     override def validations = {
       valMinLen(1, "Please input the postID.") _ :: Nil

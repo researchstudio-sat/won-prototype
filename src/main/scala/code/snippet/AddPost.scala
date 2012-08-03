@@ -56,13 +56,14 @@ class AddPost {
       }
 
       // Create and save the new post.
-      Post.create.title(postTitle).description(postDescription).intention(postIntention).postedAt(timeNow).userID(userId).save()
+      val post: Post = Post.create
+      post.title(postTitle).description(postDescription).intention(postIntention).postedAt(timeNow).userID(userId).save()
+      post.primaryKeyField
 
       // Save the image into the file system
       if (!fileHolder.isEmpty) {
         if (fileHolder.map(_.mimeType).openTheBox.startsWith("image/") && fileHolder.map(_.file).openTheBox.length > 0) {
-          //TODO: If possible just replace the findAll with find with the last id, to improve the performance!
-          PostImage.create.postID(Post.findAll()(Post.findAll().size - 1).id.toString()).save() //get the id of the last need
+          PostImage.create.postID(post.primaryKeyField.toString).save() //get the id of the last need
           val filePath = wonConfiguration.imagesPath
           val imageTypeArray = fileHolder.map(_.fileName).openTheBox.split('.')
           val oFile = new File(filePath, PostImage.findAll()(PostImage.findAll().size - 1).id.toString() + "." + imageTypeArray(imageTypeArray.length - 1)) //get the id of the last image
